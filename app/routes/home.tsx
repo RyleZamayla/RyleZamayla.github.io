@@ -4,7 +4,6 @@ import { FeaturedProject, ProjectList } from "../components/ProjectList";
 import { SkillTree } from "../components/SkillTree";
 import { QuestLog } from "../components/QuestLog";
 import { ContactTerminal } from "../components/ContactTerminal";
-import { Band, Reveal } from "../components/Reveal";
 import { projects } from "../content/projects.ts";
 import { profile } from "../content/profile.ts";
 import { pageMeta } from "../lib/meta.ts";
@@ -38,36 +37,40 @@ export default function Home() {
         <HubScene />
       </section>
 
-      <Band id="projects" labelledBy="projects-heading">
+      <section id="projects" className="band" aria-labelledby="projects-heading">
+        <div className="wrap">
           <h2 id="projects-heading">Projects</h2>
           <p className="lede">
             Two personal projects and five systems I work on professionally. The professional ones use generic names
             because their code is private.
           </p>
-          {featured && (
-            <Reveal>
-              <FeaturedProject project={featured} />
-            </Reveal>
-          )}
+          {featured && <FeaturedProject project={featured} />}
           <ProjectList projects={rest} />
-      </Band>
+        </div>
+      </section>
 
-      <Band id="skills" alt labelledBy="skills-heading">
+      <section id="skills" className="band band--alt" aria-labelledby="skills-heading">
+        <div className="wrap">
           <h2 id="skills-heading">Skill tree</h2>
           <p className="lede">Choose a skill to see the work that shows it. Every entry links to a dated milestone.</p>
           <SkillTree />
-      </Band>
+        </div>
+      </section>
 
-      <Band id="quests" labelledBy="quests-heading">
+      <section id="quests" className="band" aria-labelledby="quests-heading">
+        <div className="wrap">
           <h2 id="quests-heading">Quest log</h2>
           <p className="lede">Completed, with where each claim comes from.</p>
           <QuestLog />
-      </Band>
+        </div>
+      </section>
 
-      <Band id="contact" alt labelledBy="contact-heading">
+      <section id="contact" className="band band--alt" aria-labelledby="contact-heading">
+        <div className="wrap">
           <h2 id="contact-heading">Contact</h2>
           <ContactTerminal />
-      </Band>
+        </div>
+      </section>
     </>
   );
 }

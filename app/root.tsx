@@ -16,7 +16,6 @@ import "./styles/global.css";
 import { SiteHeader } from "./components/SiteHeader";
 import { SiteFooter } from "./components/SiteFooter";
 import { CheatCode } from "./components/CheatCode";
-import { ScrollProgress } from "./components/Reveal";
 import { motionBootScript } from "./lib/motion.ts";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -36,7 +35,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <ScrollProgress />
         <SiteHeader />
         <main id="main" tabIndex={-1}>
           {children}

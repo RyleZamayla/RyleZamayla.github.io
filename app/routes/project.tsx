@@ -4,7 +4,6 @@ import type { Route } from "./+types/project";
 import { getProject, projects } from "../content/projects.ts";
 import { KindTag } from "../components/KindTag";
 import { Timeline } from "../components/Timeline";
-import { CountUp, Reveal } from "../components/Reveal";
 import { pageMeta } from "../lib/meta.ts";
 import NotFound from "./not-found";
 
@@ -29,10 +28,7 @@ export default function ProjectPage({ params }: Route.ComponentProps) {
     const el = document.getElementById(decodeURIComponent(hash.slice(1)));
     if (!el) return;
     el.closest("details")?.setAttribute("open", "");
-    // Show and highlight it straight away; :target doesn't update on in-app navigation.
-    document.querySelectorAll(".milestone.is-linked").forEach((m) => m.classList.remove("is-linked"));
-    el.classList.add("is-linked");
-    el.scrollIntoView({ block: "start", behavior: "instant" });
+    el.scrollIntoView({ block: "start" });
   }, [hash, params.slug]);
 
   if (!project) return <NotFound />;
@@ -58,9 +54,7 @@ export default function ProjectPage({ params }: Route.ComponentProps) {
             <div key={s.label} className="stat">
               <dt>{s.label}</dt>
               <dd>
-                <span className="stat__value">
-                  <CountUp value={s.value} />
-                </span>
+                <span className="stat__value">{s.value}</span>
                 <span className="muted small">{s.source}</span>
               </dd>
             </div>
@@ -69,48 +63,36 @@ export default function ProjectPage({ params }: Route.ComponentProps) {
       )}
 
       <section aria-labelledby="problem">
-        <Reveal>
-          <h2 id="problem">The problem</h2>
-          <p>{project.problem}</p>
-        </Reveal>
+        <h2 id="problem">The problem</h2>
+        <p>{project.problem}</p>
       </section>
       <section aria-labelledby="what">
-        <Reveal>
-          <h2 id="what">What it does</h2>
-          <p>{project.overview}</p>
-        </Reveal>
+        <h2 id="what">What it does</h2>
+        <p>{project.overview}</p>
       </section>
       <section aria-labelledby="role">
-        <Reveal>
-          <h2 id="role">My role</h2>
-          <p>{project.role}</p>
-        </Reveal>
+        <h2 id="role">My role</h2>
+        <p>{project.role}</p>
       </section>
       <section aria-labelledby="stack">
-        <Reveal>
-          <h2 id="stack">Stack and integrations</h2>
-          <ul className="chips">
-            {[...project.stack, ...project.integrations].map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-        </Reveal>
+        <h2 id="stack">Stack and integrations</h2>
+        <ul className="chips">
+          {[...project.stack, ...project.integrations].map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
       </section>
       <section aria-labelledby="timeline">
-        <Reveal>
-          <h2 id="timeline">How it was built</h2>
-          <p className="muted">
-            Milestones grouped into phases. Each one shows its date, the commit or build it comes from, and how it was
-            checked.
-          </p>
-        </Reveal>
+        <h2 id="timeline">How it was built</h2>
+        <p className="muted">
+          Milestones grouped into phases. Each one shows its date, the commit or build it comes from, and how it was
+          checked.
+        </p>
         <Timeline phases={project.phases} />
       </section>
       <section aria-labelledby="source">
-        <Reveal>
-          <h2 id="source">Source</h2>
-          <p>{project.sourceNote}</p>
-        </Reveal>
+        <h2 id="source">Source</h2>
+        <p>{project.sourceNote}</p>
       </section>
 
       <nav className="pager" aria-label="More projects">

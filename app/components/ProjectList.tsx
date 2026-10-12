@@ -1,8 +1,6 @@
 import { Link } from "react-router";
 import type { Project } from "../content/types.ts";
 import { KindTag } from "./KindTag";
-import { CountUp } from "./Reveal";
-import { useReveal } from "../hooks/useReveal.ts";
 
 /** The featured project gets a large panel; the rest read as a level-select list. */
 export function FeaturedProject({ project }: { project: Project }) {
@@ -24,9 +22,7 @@ export function FeaturedProject({ project }: { project: Project }) {
       </div>
       {stat && (
         <div className="featured__stat">
-          <p className="featured__value">
-            <CountUp value={stat.value} />
-          </p>
+          <p className="featured__value">{stat.value}</p>
           <p>{stat.label}</p>
           <p className="muted small">{stat.source}</p>
         </div>
@@ -36,11 +32,10 @@ export function FeaturedProject({ project }: { project: Project }) {
 }
 
 export function ProjectList({ projects }: { projects: Project[] }) {
-  const { ref, revealClass } = useReveal<HTMLUListElement>();
   return (
-    <ul ref={ref} className={`levels stagger ${revealClass}`}>
-      {projects.map((p, i) => (
-        <li key={p.slug} className="level" style={{ "--i": i } as React.CSSProperties}>
+    <ul className="levels">
+      {projects.map((p) => (
+        <li key={p.slug} className="level">
           <div className="level__head">
             <h3>
               <Link viewTransition to={`/projects/${p.slug}`}>{p.title}</Link>
