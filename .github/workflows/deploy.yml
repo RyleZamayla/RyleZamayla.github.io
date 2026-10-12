@@ -1,16 +1,19 @@
 # Builds the static site and publishes it to GitHub Pages on every push to main.
+# One-time setup: repo Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:
+  workflow_dispatch: # lets you re-run it by hand from the Actions tab
 
+# Only the permissions Pages needs; nothing can write to the repository itself.
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Never run two deployments at once; let an in-progress one finish.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -25,7 +28,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm test
+      - run: npm test # content checks: evidence links, no private names, etc.
       - run: npm run typecheck
       - run: npm run build
       - uses: actions/configure-pages@v6

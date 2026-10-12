@@ -54,6 +54,18 @@ export function ContactTerminal() {
             <span className="terminal__note">work history</span>
           </li>
           <li {...line(5)}>
+            <a href={profile.links.facebook} rel="me">
+              facebook
+            </a>
+            <span className="terminal__note">say hello</span>
+          </li>
+          <li {...line(6)}>
+            <a href={profile.links.instagram} rel="me">
+              instagram
+            </a>
+            <span className="terminal__note">life outside the code</span>
+          </li>
+          <li {...line(7)}>
             <button type="button" className="terminal__btn" onClick={copyEmail}>
               copy-email
             </button>

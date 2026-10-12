@@ -6,4 +6,8 @@ import { defineConfig } from "vite";
 // `base: "/<repo>/"` here and `basename` in react-router.config.ts.
 export default defineConfig({
   plugins: [reactRouter()],
+  // Stamped into the footer so visitors can see how fresh the site is.
+  define: {
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+  },
 });

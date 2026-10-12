@@ -14,9 +14,9 @@ export function SiteHeader() {
       <div className="wrap site-header__inner">
         <Link to="/" viewTransition className="brand" aria-label={`${profile.name}, home`}>
           <span className="brand__mark" aria-hidden="true">
-            RB
+            RZ
           </span>
-          <span className="brand__name">Ryle Bracho</span>
+          <span className="brand__name">Ryle Zamayla</span>
         </Link>
         <nav aria-label="Main">
           <ul className="nav">

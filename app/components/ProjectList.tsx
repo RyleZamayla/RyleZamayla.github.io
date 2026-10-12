@@ -1,6 +1,9 @@
 import { Link } from "react-router";
 import type { Project } from "../content/types.ts";
 import { KindTag } from "./KindTag";
+import { CountUp } from "./Reveal";
+import { SnapshotThumb } from "./Snapshots";
+import { useReveal } from "../hooks/useReveal.ts";
 
 /** The featured project gets a large panel; the rest read as a level-select list. */
 export function FeaturedProject({ project }: { project: Project }) {
@@ -10,7 +13,9 @@ export function FeaturedProject({ project }: { project: Project }) {
       <div className="featured__text">
         <KindTag kind={project.kind} />
         <h3>
-          <Link viewTransition to={`/projects/${project.slug}`}>{project.title}</Link>
+          <Link viewTransition to={`/projects/${project.slug}`}>
+            {project.title}
+          </Link>
         </h3>
         <p>{project.tagline}</p>
         <p className="muted">{project.problem}</p>
@@ -20,33 +25,44 @@ export function FeaturedProject({ project }: { project: Project }) {
           </Link>
         </p>
       </div>
-      {stat && (
-        <div className="featured__stat">
-          <p className="featured__value">{stat.value}</p>
-          <p>{stat.label}</p>
-          <p className="muted small">{stat.source}</p>
-        </div>
-      )}
+      <div className="featured__side">
+        <SnapshotThumb slug={project.slug} />
+        {stat && (
+          <div className="featured__stat">
+            <p className="featured__value">
+              <CountUp value={stat.value} />
+            </p>
+            <p>{stat.label}</p>
+            <p className="muted small">{stat.source}</p>
+          </div>
+        )}
+      </div>
     </article>
   );
 }
 
 export function ProjectList({ projects }: { projects: Project[] }) {
+  const { ref, revealClass } = useReveal<HTMLUListElement>();
   return (
-    <ul className="levels">
-      {projects.map((p) => (
-        <li key={p.slug} className="level">
-          <div className="level__head">
-            <h3>
-              <Link viewTransition to={`/projects/${p.slug}`}>{p.title}</Link>
-            </h3>
-            <KindTag kind={p.kind} />
+    <ul ref={ref} className={`levels stagger ${revealClass}`}>
+      {projects.map((p, i) => (
+        <li key={p.slug} className="level" style={{ "--i": i } as React.CSSProperties}>
+          <div className="level__text">
+            <div className="level__head">
+              <h3>
+                <Link viewTransition to={`/projects/${p.slug}`}>
+                  {p.title}
+                </Link>
+              </h3>
+              <KindTag kind={p.kind} />
+            </div>
+            <p>{p.tagline}</p>
+            <p className="level__meta">
+              <span>{p.period}</span>
+              <span>{p.stack.join(", ")}</span>
+            </p>
           </div>
-          <p>{p.tagline}</p>
-          <p className="level__meta">
-            <span>{p.period}</span>
-            <span>{p.stack.join(", ")}</span>
-          </p>
+          <SnapshotThumb slug={p.slug} />
         </li>
       ))}
     </ul>

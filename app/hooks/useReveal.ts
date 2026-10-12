@@ -5,8 +5,11 @@ import { motionIsOn } from "../lib/motion.ts";
  * Plays an entrance animation the first time an element scrolls into view.
  * Content is only hidden once JavaScript has run AND motion is on ("armed"),
  * so without JS, or with motion paused, everything is simply visible.
+ *
+ * It triggers when the element's top passes 88% of the way down the viewport,
+ * which works for elements taller than the screen, too.
  */
-export function useReveal<T extends Element>(threshold = 0.25) {
+export function useReveal<T extends Element>(threshold = 0) {
   const ref = useRef<T>(null);
   const [state, setState] = useState<"idle" | "armed" | "in">("idle");
 
@@ -21,7 +24,7 @@ export function useReveal<T extends Element>(threshold = 0.25) {
           io.disconnect();
         }
       },
-      { threshold },
+      { threshold, rootMargin: "0px 0px -12% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();

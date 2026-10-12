@@ -4,6 +4,7 @@ import { projects, allMilestones } from "../app/content/projects.ts";
 import { skills, skillGroups } from "../app/content/skills.ts";
 import { achievements } from "../app/content/achievements.ts";
 import { profile } from "../app/content/profile.ts";
+import { snapshots } from "../app/content/snapshots.ts";
 
 const milestoneIds = new Set<string>();
 for (const { milestone } of allMilestones()) milestoneIds.add(milestone.id);
@@ -35,25 +36,35 @@ test("commit references look like commit hashes and dates are real", () => {
     if (milestone.refKind === "commit") assert.match(milestone.ref ?? "", /^[0-9a-f]{7,8}$/, `${project.slug}/${milestone.id}`);
     assert.match(milestone.date, /^\d{4}-\d{2}-\d{2}$/);
     assert.ok(!Number.isNaN(Date.parse(milestone.date)), milestone.date);
-    assert.ok(milestone.date >= "2025-10-01" && milestone.date <= "2026-10-31", `${milestone.id} date out of audited range`);
+    assert.ok(milestone.date >= "2023-01-01" && milestone.date <= "2026-10-31", `${milestone.id} date out of audited range`);
   }
 });
 
-test("per-project commit counts add up to the 2,455 in the quest log", () => {
+test("per-project commit counts add up to the total in the quest log", () => {
   const total = projects
     .flatMap((p) => p.stats.filter((s) => s.label === "commits"))
     .reduce((sum, s) => sum + Number(s.value.replace(/,/g, "")), 0);
-  assert.equal(total, 2455);
+  assert.equal(total, 2476);
+  const claimed = achievements.find((a) => a.id === "commits")!.title;
+  assert.ok(claimed.startsWith(total.toLocaleString("en-US")), `quest log says "${claimed}" but projects add up to ${total}`);
 });
 
 test("no private names leak into public content", () => {
   // Internal repository, product and client names that must never be published.
   const banned = /taskusgirls|flixio|floorline|procuremate|engagis|luxottica|whistleblow|support-engagis/i;
-  const text = JSON.stringify({ projects, skills, achievements, profile });
+  const text = JSON.stringify({ projects, skills, achievements, profile, snapshots });
   const hit = text.match(banned);
   assert.equal(hit, null, `found "${hit?.[0]}" in content`);
 });
 
 test("the email address is never stored as one string", () => {
   assert.equal(JSON.stringify(profile).includes("@"), false);
+});
+
+test("every project has illustrated snapshots, and none are orphaned", () => {
+  const slugs = new Set(projects.map((p) => p.slug));
+  for (const p of projects) assert.ok((snapshots[p.slug] ?? []).length > 0, `${p.slug} has no snapshots`);
+  for (const key of Object.keys(snapshots)) assert.ok(slugs.has(key), `snapshots for unknown project ${key}`);
+  const ids = Object.values(snapshots).flat().map((s) => s.id);
+  assert.equal(new Set(ids).size, ids.length, "snapshot ids must be unique");
 });

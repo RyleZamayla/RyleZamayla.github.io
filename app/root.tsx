@@ -13,10 +13,22 @@ import "@fontsource/jetbrains-mono/latin-400.css";
 import "@fontsource/jetbrains-mono/latin-700.css";
 import "./styles/global.css";
 
+// Preloading the two main font files means headings and body text appear in
+// their real fonts straight away, instead of flashing a wider fallback first
+// (most noticeable on phones over mobile data, especially in Safari).
+import jerseyWoff2 from "@fontsource/jersey-10/files/jersey-10-latin-400-normal.woff2?url";
+import monoWoff2 from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url";
+
 import { SiteHeader } from "./components/SiteHeader";
 import { SiteFooter } from "./components/SiteFooter";
 import { CheatCode } from "./components/CheatCode";
+import { ScrollProgress } from "./components/Reveal";
 import { motionBootScript } from "./lib/motion.ts";
+
+export const links: Route.LinksFunction = () => [
+  { rel: "preload", href: jerseyWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preload", href: monoWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -35,6 +47,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <ScrollProgress />
         <SiteHeader />
         <main id="main" tabIndex={-1}>
           {children}

@@ -58,6 +58,17 @@ Easter eggs: pet the cat on the desk, and try the Konami code.
 3. Point any relevant skills in `app/content/skills.ts` at its milestone ids.
 4. Run `npm test`. Pre-rendering picks the new page up automatically.
 
+## Deployment
+
+Pushing to `main` runs `.github/workflows/deploy.yml`: install, content tests,
+type-check, build, then publish `build/client` to GitHub Pages. No secrets or
+environment variables are used, so nothing private can end up in the build.
+
+One-time setup: in the repository's **Settings → Pages**, set **Source** to
+**GitHub Actions**. The site is served from the root of
+`https://rylezamayla.github.io/` because this is a user-site repository
+(named `RyleZamayla.github.io`); see `vite.config.ts` if that ever changes.
+
 ## Content rules
 
 - Professional projects use generic titles and are described from commit

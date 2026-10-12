@@ -53,6 +53,8 @@ export interface Project {
   period: string;
   problem: string;
   overview: string;
+  /** One-line, evidence-backed proof shown in the "at a glance" card. */
+  outcome: string;
   role: string;
   stack: string[];
   integrations: string[];
@@ -61,7 +63,7 @@ export interface Project {
   /** Plain statement of what can and can't be shown, and why. */
   sourceNote: string;
   /** Where this project sits in the landing-page scene. */
-  sceneSpot: "monitor" | "laptop" | "phone" | "rack" | "board" | "tablet" | "notebook";
+  sceneSpot: "monitor" | "laptop" | "phone" | "rack" | "board" | "tablet" | "notebook" | "clock" | "queue-sign";
 }
 
 export interface Skill {
@@ -76,6 +78,8 @@ export type SkillGroup = "Backend" | "Mobile" | "Frontend" | "Integrations" | "S
 
 export interface Achievement {
   id: string;
+  /** Main quests are professional work; side quests are personal projects. */
+  quest: "main" | "side";
   title: string;
   detail: string;
   source: string;

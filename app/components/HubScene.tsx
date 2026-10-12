@@ -38,6 +38,8 @@ const boxes: Record<Spot, { x: number; y: number; w: number; h: number; name: st
   phone: { x: 125, y: 60, w: 11, h: 14, name: "Phone" },
   tablet: { x: 137, y: 62, w: 19, h: 12, name: "Tablet" },
   rack: { x: 161, y: 43, w: 28, h: 58, name: "Server rack" },
+  clock: { x: 56, y: 10, w: 13, h: 13, name: "Wall clock" },
+  "queue-sign": { x: 79, y: 8, w: 30, h: 17, name: "Now-serving sign" },
 };
 
 function R(props: { x: number; y: number; w: number; h: number; f: string; className?: string }) {
@@ -212,6 +214,76 @@ function Rack() {
   );
 }
 
+function Clock() {
+  // Minute hand has four positions; CSS shows one at a time so it "ticks" around.
+  const face: [number, number, number, number][] = [
+    [59, 11, 7, 1], [58, 12, 9, 1], [57, 13, 11, 7], [58, 20, 9, 1], [59, 21, 7, 1],
+  ];
+  const hands: [number, number, number, number][] = [
+    [62, 13, 1, 3], [63, 16, 3, 1], [62, 17, 1, 3], [59, 16, 3, 1],
+  ];
+  return (
+    <g>
+      <R x={58} y={10} w={9} h={1} f={C.edge} />
+      <R x={56} y={12} w={1} h={9} f={C.edge} />
+      <R x={68} y={12} w={1} h={9} f={C.edge} />
+      <R x={58} y={22} w={9} h={1} f={C.edge} />
+      <R x={57} y={11} w={1} h={1} f={C.edge} />
+      <R x={67} y={11} w={1} h={1} f={C.edge} />
+      <R x={57} y={21} w={1} h={1} f={C.edge} />
+      <R x={67} y={21} w={1} h={1} f={C.edge} />
+      {face.map(([x, y, w, h], i) => (
+        <R key={i} x={x} y={y} w={w} h={h} f={C.paperDim} />
+      ))}
+      {[[62, 12], [66, 16], [62, 20], [58, 16]].map(([x, y]) => (
+        <R key={`t${x}-${y}`} x={x!} y={y!} w={1} h={1} f={C.edge} />
+      ))}
+      <R x={60} y={16} w={2} h={1} f={C.trim} />
+      {hands.map(([x, y, w, h], i) => (
+        <R key={`h${i}`} x={x} y={y} w={w} h={h} f={C.ember} className={`minute minute--${i}`} />
+      ))}
+      <R x={62} y={16} w={1} h={1} f={C.trim} />
+    </g>
+  );
+}
+
+// 3 x 5 pixel digits for the sign.
+const DIGITS: Record<string, string[]> = {
+  "0": ["ooo", "o.o", "o.o", "o.o", "ooo"],
+  "7": ["ooo", "..o", "..o", ".o.", ".o."],
+  "8": ["ooo", "o.o", "ooo", "o.o", "ooo"],
+};
+function Digits({ text, x, y, className }: { text: string; x: number; y: number; className?: string }) {
+  return (
+    <g className={className}>
+      {[...text].flatMap((ch, n) =>
+        DIGITS[ch]!.flatMap((row, r) =>
+          [...row].map((px, c) =>
+            px === "o" ? <R key={`${n}-${r}-${c}`} x={x + n * 4 + c} y={y + r} w={1} h={1} f={C.ember} /> : null,
+          ),
+        ),
+      )}
+    </g>
+  );
+}
+
+function QueueSign() {
+  return (
+    <g>
+      <R x={86} y={8} w={1} h={3} f={C.edge} />
+      <R x={101} y={8} w={1} h={3} f={C.edge} />
+      <R x={80} y={11} w={28} h={13} f={C.edge} />
+      <R x={81} y={12} w={26} h={11} f={C.sky} />
+      {/* "now serving" label, drawn as a short text bar */}
+      <R x={83} y={14} w={9} h={1} f={C.mint} />
+      <R x={83} y={16} w={7} h={1} f={C.mint} />
+      <R x={83} y={18} w={9} h={1} f={C.paperDim} />
+      <Digits text="07" x={96} y={15} className="queue-num queue-num--a" />
+      <Digits text="08" x={96} y={15} className="queue-num queue-num--b" />
+    </g>
+  );
+}
+
 const art: Record<Spot, () => React.ReactElement> = {
   board: Board,
   monitor: Monitor,
@@ -220,6 +292,8 @@ const art: Record<Spot, () => React.ReactElement> = {
   phone: Phone,
   tablet: Tablet,
   rack: Rack,
+  clock: Clock,
+  "queue-sign": QueueSign,
 };
 
 export function HubScene() {
