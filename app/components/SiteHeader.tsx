@@ -3,6 +3,7 @@ import { profile } from "../content/profile.ts";
 import { MotionToggle } from "./MotionToggle";
 
 const sections = [
+  { to: "/#about", label: "About" },
   { to: "/#skills", label: "Skills" },
   { to: "/#quests", label: "Quest log" },
   { to: "/#contact", label: "Contact" },

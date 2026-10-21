@@ -12,6 +12,15 @@ export const profile = {
     facebook: "https://www.facebook.com/RyleZamayla/",
     instagram: "https://www.instagram.com/rylezamayla/",
   },
+  avatar: { src: "/avatar.png", width: 64, height: 71 },
+  /** The character card next to "About me". Everything here is in Ryle's own words. */
+  character: [
+    { label: "Class", value: "Systems Integrator" },
+    { label: "Base", value: "Cagayan de Oro" },
+    { label: "Side skill", value: "Motorcycle electrics" },
+    { label: "Sports", value: "Badminton, pickleball" },
+    { label: "Status", value: "Playing through a torn ACL" },
+  ],
   // Stored in two parts and joined only when someone presses "Copy email",
   // so the address never appears in the page's HTML for scrapers to collect.
   emailParts: ["joshuaryle4107", "gmail.com"] as const,

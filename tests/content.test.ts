@@ -40,13 +40,13 @@ test("commit references look like commit hashes and dates are real", () => {
   }
 });
 
-test("per-project commit counts add up to the total in the quest log", () => {
-  const total = projects
-    .flatMap((p) => p.stats.filter((s) => s.label === "commits"))
-    .reduce((sum, s) => sum + Number(s.value.replace(/,/g, "")), 0);
-  assert.equal(total, 2476);
-  const claimed = achievements.find((a) => a.id === "commits")!.title;
-  assert.ok(claimed.startsWith(total.toLocaleString("en-US")), `quest log says "${claimed}" but projects add up to ${total}`);
+test("headline figures are in plain language, never commit counts", () => {
+  // Recruiters don't read "commits"; stats, proof lines and quests must say what was achieved instead.
+  for (const p of projects) {
+    for (const s of p.stats) assert.doesNotMatch(`${s.value} ${s.label}`, /commit/i, `${p.slug} stat "${s.label}"`);
+    assert.doesNotMatch(p.outcome, /commit/i, `${p.slug} outcome`);
+  }
+  for (const a of achievements) assert.doesNotMatch(`${a.title} ${a.detail}`, /commit/i, `quest ${a.id}`);
 });
 
 test("no private names leak into public content", () => {

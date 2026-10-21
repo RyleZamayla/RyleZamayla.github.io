@@ -1,8 +1,12 @@
 /*
- * Illustrated "snapshots" of each project. These are NOT screenshots: they are
- * drawings of features the audit verified, filled with invented demo data, and
- * every one is captioned as an illustration on the site. Never put real names,
- * clients, figures or internal screens in here.
+ * Snapshots of each project, of two kinds:
+ *  - "screenshot": a real capture of the actual app, run against demo data.
+ *    Only for projects whose code is Ryle's own. Images live in public/snapshots/.
+ *  - everything else: an illustration of a verified feature, drawn here from
+ *    blocks with invented demo data. Used where real screens can't be shown
+ *    (work projects, or apps we haven't run yet).
+ * Each kind is labelled differently on the site. Never put real names,
+ * clients, figures or internal company screens in here.
  */
 
 export type Tone = "mint" | "ember" | "muted" | "paper";
@@ -23,7 +27,9 @@ export type Block =
 
 export interface Snapshot {
   id: string;
-  frame: "browser" | "phone" | "terminal";
+  frame: "browser" | "phone" | "terminal" | "screenshot";
+  /** For real screenshots: the image under public/, and its pixel size. */
+  image?: { src: string; width: number; height: number };
   /** Address bar text, app bar title, or terminal window title. */
   title: string;
   /** What the illustration shows. Also used as its text alternative. */
@@ -34,77 +40,70 @@ export interface Snapshot {
 export const snapshots: Record<string, Snapshot[]> = {
   "time-tracker": [
     {
-      id: "tt-unsynced",
-      frame: "browser",
-      title: "localhost:8787",
-      caption: "Unsynced commits grouped by day and repository, each with its own copy-ready memo.",
-      blocks: [
-        { type: "tabs", items: ["Unsynced", "Synced"], active: 0 },
-        { type: "heading", text: "1 Sep 2026", meta: "demo-api · 3 commits" },
-        {
-          type: "rows",
-          rows: [
-            { check: true, label: "Add booking export to CSV", meta: "a1b2c3d", chip: { text: "Copy memo", tone: "mint" } },
-            { check: true, label: "Fix timezone shift in date filter", meta: "4e5f6a7", chip: { text: "Copy memo", tone: "mint" } },
-            { check: false, label: "Refactor sync state loading", meta: "8b9c0d1", chip: { text: "Copy memo", tone: "mint" } },
-          ],
-        },
-        { type: "buttons", items: [{ text: "Mark checked as synced", primary: true }, { text: "Generate summary" }] },
-      ],
+      id: "tt-real-unsynced",
+      frame: "screenshot",
+      title: "Unsynced commits",
+      caption: "A day's commits grouped by repository, ticked and ready to log, each with its own copy-ready memo.",
+      image: { src: "/snapshots/time-tracker/unsynced.webp", width: 1600, height: 1975 },
+      blocks: [],
     },
     {
-      id: "tt-summary",
-      frame: "browser",
-      title: "localhost:8787 · daily summary",
-      caption: "A rule-based daily summary: commit titles only, de-duplicated, ready to edit and copy.",
-      blocks: [
-        { type: "heading", text: "Summary for 1 Sep 2026", meta: "demo-api" },
-        {
-          type: "code",
-          lines: ["Add booking export to CSV; Fix timezone shift", "in date filter; Refactor sync state loading;", "Add retry to report job (+2 more commits)"],
-        },
-        { type: "buttons", items: [{ text: "Copy", primary: true }, { text: "Summarize next 2" }] },
-      ],
+      id: "tt-real-summary",
+      frame: "screenshot",
+      title: "Daily summary",
+      caption: "One click turns a day of commits into a short, editable summary per repository.",
+      image: { src: "/snapshots/time-tracker/summary.webp", width: 1520, height: 1180 },
+      blocks: [],
+    },
+    {
+      id: "tt-real-synced",
+      frame: "screenshot",
+      title: "Synced history",
+      caption: "The Synced tab keeps a permanent, read-only record of everything already logged.",
+      image: { src: "/snapshots/time-tracker/synced.webp", width: 1600, height: 1145 },
+      blocks: [],
+    },
+    {
+      id: "tt-real-overview",
+      frame: "screenshot",
+      title: "Settings and tracked repositories",
+      caption: "Setup: who to track, where the repositories live, and each one's starting point.",
+      image: { src: "/snapshots/time-tracker/overview.webp", width: 1600, height: 1015 },
+      blocks: [],
     },
   ],
   sweltrack: [
     {
-      id: "sw-payroll",
-      frame: "browser",
-      title: "sweltrack.local/payroll",
-      caption: "A payroll run where holiday and rest-day premiums are calculated from each person's schedule.",
-      blocks: [
-        { type: "heading", text: "Payroll run", meta: "1–15 Jul 2026 · Demo Co." },
-        {
-          type: "table",
-          head: ["Employee", "Days", "Premiums", "Net pay"],
-          rows: [
-            ["J. Dela Cruz", "11", "₱1,240", "₱14,980"],
-            ["M. Reyes", "10", "₱0", "₱12,600"],
-            ["A. Santos", "11", "₱2,310", "₱16,050"],
-          ],
-          highlight: 2,
-        },
-        { type: "buttons", items: [{ text: "Approve run", primary: true }, { text: "Export" }] },
-      ],
+      id: "sw-real-payslip",
+      frame: "screenshot",
+      title: "Computed payslip",
+      caption: "A computed payslip: earnings, government deductions and withholding tax, beside the attendance logs they came from.",
+      image: { src: "/snapshots/sweltrack/payslip.webp", width: 1600, height: 841 },
+      blocks: [],
     },
     {
-      id: "sw-leave",
-      frame: "browser",
-      title: "sweltrack.local/requests",
-      caption: "Self-service requests routed to the right approver, including time-record corrections.",
-      blocks: [
-        { type: "tabs", items: ["Leave", "Corrections", "Schedules"], active: 0 },
-        {
-          type: "rows",
-          rows: [
-            { label: "Vacation leave · 2 days", meta: "J. Dela Cruz", chip: { text: "Approved", tone: "mint" } },
-            { label: "Sick leave · 1 day", meta: "M. Reyes", chip: { text: "Pending", tone: "ember" } },
-            { label: "Time correction · 8 Jul", meta: "A. Santos", chip: { text: "Pending", tone: "ember" } },
-          ],
-        },
-        { type: "stats", items: [{ value: "12", label: "leave days left" }, { value: "2", label: "awaiting you" }] },
-      ],
+      id: "sw-real-dashboard",
+      frame: "screenshot",
+      title: "Payroll dashboard",
+      caption: "Remittance deadlines for SSS, PhilHealth, Pag-IBIG and BIR, with year-to-date contributions.",
+      image: { src: "/snapshots/sweltrack/dashboard.webp", width: 1600, height: 427 },
+      blocks: [],
+    },
+    {
+      id: "sw-real-roster",
+      frame: "screenshot",
+      title: "Team roster",
+      caption: "The weekly roster: shifts per employee, with batch editing, one-day overrides and change requests.",
+      image: { src: "/snapshots/sweltrack/roster.webp", width: 1600, height: 814 },
+      blocks: [],
+    },
+    {
+      id: "sw-real-login",
+      frame: "screenshot",
+      title: "Sign in",
+      caption: "The sign-in page.",
+      image: { src: "/snapshots/sweltrack/login.webp", width: 1600, height: 835 },
+      blocks: [],
     },
   ],
   taskforge: [
@@ -344,6 +343,10 @@ export const snapshots: Record<string, Snapshot[]> = {
     },
   ],
 };
+
+export function isScreenshot(s: Snapshot): boolean {
+  return s.frame === "screenshot" && !!s.image;
+}
 
 export function getSnapshots(slug: string): Snapshot[] {
   return snapshots[slug] ?? [];

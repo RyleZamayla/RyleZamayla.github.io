@@ -5,13 +5,51 @@ import type { Block, Snapshot } from "../content/snapshots.ts";
  * as a single image with the caption as its description, so screen readers
  * don't read invented demo data out as if it were real content.
  */
-export function Mockup({ snapshot, size = "full" }: { snapshot: Snapshot; size?: "full" | "thumb" }) {
-  const { frame, title, blocks } = snapshot;
+export function Mockup({
+  snapshot,
+  size = "full",
+}: {
+  snapshot: Snapshot;
+  size?: "full" | "thumb";
+}) {
+  const { frame, title, blocks, image } = snapshot;
+  if (frame === "screenshot" && image) {
+    return (
+      <div
+        className={`mock mock--screenshot mock--${size}`}
+        aria-hidden={size === "thumb" ? true : undefined}
+      >
+        {size === "full" ? (
+          <a href={image.src} className="mock__zoom" title="Open full size">
+            <img
+              src={image.src}
+              width={image.width}
+              height={image.height}
+              loading="lazy"
+              decoding="async"
+              alt={`Screenshot: ${snapshot.caption}`}
+            />
+          </a>
+        ) : (
+          <img
+            src={image.src}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            decoding="async"
+            alt=""
+          />
+        )}
+      </div>
+    );
+  }
   return (
     <div
       className={`mock mock--${frame} mock--${size}`}
       role={size === "full" ? "img" : undefined}
-      aria-label={size === "full" ? `Illustration: ${snapshot.caption}` : undefined}
+      aria-label={
+        size === "full" ? `Illustration: ${snapshot.caption}` : undefined
+      }
       aria-hidden={size === "thumb" ? true : undefined}
     >
       <div className="mock__chrome" aria-hidden="true">
@@ -57,7 +95,10 @@ function MockBlock({ block }: { block: Block }) {
       return (
         <div className="mb-tabs">
           {block.items.map((t, i) => (
-            <span key={t} className={i === block.active ? "is-active" : undefined}>
+            <span
+              key={t}
+              className={i === block.active ? "is-active" : undefined}
+            >
               {t}
             </span>
           ))}
@@ -86,12 +127,18 @@ function MockBlock({ block }: { block: Block }) {
         <ul className="mb-rows">
           {block.rows.map((r) => (
             <li key={r.label}>
-              {r.check !== undefined && <span className={`mb-check${r.check ? " is-on" : ""}`} />}
+              {r.check !== undefined && (
+                <span className={`mb-check${r.check ? " is-on" : ""}`} />
+              )}
               <span className="mb-rows__text">
                 <span>{r.label}</span>
                 {r.meta && <small>{r.meta}</small>}
               </span>
-              {r.chip && <span className={`mb-chip tone-${r.chip.tone}`}>{r.chip.text}</span>}
+              {r.chip && (
+                <span className={`mb-chip tone-${r.chip.tone}`}>
+                  {r.chip.text}
+                </span>
+              )}
             </li>
           ))}
         </ul>
@@ -108,7 +155,10 @@ function MockBlock({ block }: { block: Block }) {
           </thead>
           <tbody>
             {block.rows.map((row, i) => (
-              <tr key={i} className={i === block.highlight ? "is-hi" : undefined}>
+              <tr
+                key={i}
+                className={i === block.highlight ? "is-hi" : undefined}
+              >
                 {row.map((cell, j) => (
                   <td key={j}>{cell}</td>
                 ))}
@@ -123,7 +173,16 @@ function MockBlock({ block }: { block: Block }) {
       return (
         <pre className="mb-code">
           {block.lines.map((l, i) => (
-            <span key={i} className={l.startsWith("$ ") ? "is-cmd" : l.startsWith("✓") ? "is-ok" : undefined}>
+            <span
+              key={i}
+              className={
+                l.startsWith("$ ")
+                  ? "is-cmd"
+                  : l.startsWith("✓")
+                    ? "is-ok"
+                    : undefined
+              }
+            >
               {l}
               {"\n"}
             </span>
@@ -133,7 +192,10 @@ function MockBlock({ block }: { block: Block }) {
     case "grid":
       return (
         <div>
-          <div className="mb-grid" style={{ gridTemplateColumns: `repeat(${block.cols}, 1fr)` }}>
+          <div
+            className="mb-grid"
+            style={{ gridTemplateColumns: `repeat(${block.cols}, 1fr)` }}
+          >
             {block.cells.map((t, i) => (
               <span key={i} className={`tone-bg-${t}`} />
             ))}
@@ -186,7 +248,11 @@ function MockBlock({ block }: { block: Block }) {
         <div className="mb-signature">
           <span>{block.label}</span>
           <svg viewBox="0 0 120 30" className="mb-signature__pad">
-            <path d="M6 22 C 18 4, 26 30, 36 16 S 52 8, 60 20 S 78 26, 86 12 S 104 14, 114 18" fill="none" strokeWidth="2.5" />
+            <path
+              d="M6 22 C 18 4, 26 30, 36 16 S 52 8, 60 20 S 78 26, 86 12 S 104 14, 114 18"
+              fill="none"
+              strokeWidth="2.5"
+            />
           </svg>
         </div>
       );

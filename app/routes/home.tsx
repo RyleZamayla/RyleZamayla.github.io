@@ -5,6 +5,7 @@ import { SkillTree } from "../components/SkillTree";
 import { QuestLog } from "../components/QuestLog";
 import { ContactTerminal } from "../components/ContactTerminal";
 import { Band, Reveal } from "../components/Reveal";
+import { AboutMe } from "../components/AboutMe";
 import { projects } from "../content/projects.ts";
 import { profile } from "../content/profile.ts";
 import { pageMeta } from "../lib/meta.ts";
@@ -20,9 +21,6 @@ export function meta() {
 export default function Home() {
   const [featured, ...rest] = projects;
   const count = (kind: string) => projects.filter((p) => p.kind === kind).length;
-  const totalCommits = projects
-    .flatMap((p) => p.stats.filter((st) => st.label === "commits"))
-    .reduce((sum, st) => sum + Number(st.value.replace(/,/g, "")), 0);
   return (
     <>
       <section className="hero wrap" aria-labelledby="hero-heading">
@@ -35,7 +33,7 @@ export default function Home() {
               <b>{projects.length}</b> projects
             </li>
             <li>
-              <b>{totalCommits.toLocaleString("en-US")}</b> commits
+              <b>{count("professional")}</b> systems at work
             </li>
             <li>
               <b>Days → hours</b> on my own timesheets
@@ -52,6 +50,11 @@ export default function Home() {
         </div>
         <HubScene />
       </section>
+
+      <Band id="about" alt labelledBy="about-heading">
+        <h2 id="about-heading">About me</h2>
+        <AboutMe />
+      </Band>
 
       <Band id="projects" labelledBy="projects-heading">
           <h2 id="projects-heading">Projects</h2>

@@ -178,7 +178,7 @@ export const projects: Project[] = [
     "tagline": "HR and payroll built for Philippine payroll rules.",
     "period": "Jul 2026",
     "problem": "Generic HR tools handle Philippine payroll poorly: premiums, benefits and time corrections.",
-    "overview": "Leave, schedules, time records, payroll runs and self-service requests, with each company's data kept separate. Set up as a subscription product.",
+    "overview": "Leave, schedules, rosters, time records, payroll runs and payslips, with SSS, PhilHealth, Pag-IBIG and BIR remittances built in and each company's data kept separate.",
     "role": "Sole developer",
     "stack": [
       "Laravel",
@@ -189,14 +189,14 @@ export const projects: Project[] = [
     "integrations": [],
     "stats": [
       {
-        "value": "254",
-        "label": "commits",
-        "source": "Commit history, 1–12 Jul 2026"
+        "value": "12 days",
+        "label": "from first screen to a full security pass",
+        "source": "Project history, Jul 2026"
       },
       {
-        "value": "9",
-        "label": "active days",
-        "source": "Commit history"
+        "value": "4",
+        "label": "government remittances tracked: SSS, PhilHealth, Pag-IBIG and BIR",
+        "source": "The app's payroll dashboard"
       }
     ],
     "phases": [
@@ -321,7 +321,7 @@ export const projects: Project[] = [
     ],
     "sourceNote": "Personal project. Source code is private for now.",
     "sceneSpot": "notebook",
-    "outcome": "254 commits in 12 days, from first screen to a security pass."
+    "outcome": "Built from first screen to a full security pass in 12 days."
   },
   {
     "slug": "taskforge",
@@ -341,14 +341,14 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "15",
-        "label": "commits",
-        "source": "Commit history, 13–14 Apr 2026"
+        "value": "2 days",
+        "label": "to build and test",
+        "source": "Project history, Apr 2026"
       },
       {
-        "value": "2",
-        "label": "active days",
-        "source": "Commit history"
+        "value": "0",
+        "label": "duplicate tasks when a profile is applied again",
+        "source": "How the tool is designed"
       }
     ],
     "phases": [
@@ -419,7 +419,7 @@ export const projects: Project[] = [
     ],
     "sourceNote": "Personal project. Source code is private for now.",
     "sceneSpot": "clock",
-    "outcome": "Repeatable task setup with tests from the very first commit."
+    "outcome": "Repeatable task setup, tested from day one."
   },
   {
     "slug": "mobile-queue-app",
@@ -441,9 +441,9 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "6",
-        "label": "commits",
-        "source": "Commit history, 5–6 Jun 2023 (of 35 in the project)"
+        "value": "2 days",
+        "label": "to set up the app and its core screens",
+        "source": "Project history, Jun 2023"
       }
     ],
     "phases": [
@@ -522,14 +522,14 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "1,427",
-        "label": "commits",
-        "source": "Commit history, Oct 2025 – Oct 2026"
+        "value": "1 year+",
+        "label": "in continuous development",
+        "source": "Project history, Oct 2025 to now"
       },
       {
-        "value": "160",
-        "label": "active days",
-        "source": "Commit history"
+        "value": "4",
+        "label": "major integrations: Microsoft 365, Entra ID, Google Maps, NetSuite",
+        "source": "Project history"
       }
     ],
     "phases": [
@@ -627,7 +627,7 @@ export const projects: Project[] = [
     ],
     "sourceNote": "Private company codebase. No code or screenshots are shown; descriptions are written from commit history.",
     "sceneSpot": "rack",
-    "outcome": "My largest codebase: 1,427 commits across a full year."
+    "outcome": "Now used across company operations, making routine work run more smoothly."
   },
   {
     "slug": "field-technician-app",
@@ -650,14 +650,9 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "435",
-        "label": "commits",
-        "source": "Commit history, Oct 2025 – Oct 2026"
-      },
-      {
-        "value": "68",
-        "label": "active days",
-        "source": "Commit history"
+        "value": "1 year+",
+        "label": "in continuous development",
+        "source": "Project history, Oct 2025 to now"
       }
     ],
     "phases": [
@@ -787,14 +782,9 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "154",
-        "label": "commits",
-        "source": "Commit history, Aug – Oct 2026"
-      },
-      {
-        "value": "16",
-        "label": "active days",
-        "source": "Commit history"
+        "value": "2 months",
+        "label": "from scratch to linked with the operations platform",
+        "source": "Project history, Aug – Oct 2026"
       }
     ],
     "phases": [
@@ -875,7 +865,7 @@ export const projects: Project[] = [
     ],
     "sourceNote": "Private company codebase. No code or screenshots are shown; descriptions are written from commit history.",
     "sceneSpot": "tablet",
-    "outcome": "Built from scratch in two months (154 commits)."
+    "outcome": "Built from scratch in two months."
   },
   {
     "slug": "floor-planning-board",
@@ -896,14 +886,9 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "148",
-        "label": "commits",
-        "source": "Commit history, Jul – Oct 2026"
-      },
-      {
-        "value": "9",
-        "label": "active days",
-        "source": "Commit history"
+        "value": "1 week",
+        "label": "to sign-in, permissions and an audit trail",
+        "source": "Project history, Jul 2026"
       }
     ],
     "phases": [
@@ -994,9 +979,9 @@ export const projects: Project[] = [
     ],
     "stats": [
       {
-        "value": "37",
-        "label": "commits",
-        "source": "Commit history, May – Sep 2026"
+        "value": "1 day",
+        "label": "hardening pass: access control, audit trail, safe uploads, tests",
+        "source": "Project history, Sep 2026"
       }
     ],
     "phases": [

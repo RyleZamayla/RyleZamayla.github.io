@@ -4,6 +4,7 @@ import { projects } from "../content/projects.ts";
 import { formatDate } from "../lib/format.ts";
 
 const explore = [
+  { to: "/#about", label: "About me" },
   { to: "/projects", label: "All projects" },
   { to: "/#skills", label: "Skill tree" },
   { to: "/#quests", label: "Quest log" },

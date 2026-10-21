@@ -15,9 +15,9 @@ export const achievements: Achievement[] = [
   {
     "id": "commits",
     "quest": "main",
-    "title": "2,476 commits across eight projects",
-    "detail": "Non-merge commits under my name, June 2023 to October 2026.",
-    "source": "Commit history exported from each repository",
+    "title": "Building and shipping since 2023",
+    "detail": "Nine projects across web, mobile and automation, from a 2023 freelance app to today's work systems.",
+    "source": "Project histories",
     "evidence": []
   },
   {
@@ -35,7 +35,7 @@ export const achievements: Achievement[] = [
   {
     "id": "sweltrack",
     "quest": "side",
-    "title": "254 commits in SwelTrack's first twelve days",
+    "title": "Built SwelTrack's core in twelve days",
     "detail": "Leave, time records, payroll rules, billing and a security pass, 1–12 July 2026.",
     "source": "Commit history",
     "evidence": [

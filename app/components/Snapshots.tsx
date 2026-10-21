@@ -1,5 +1,5 @@
 import type { Project } from "../content/types.ts";
-import { getSnapshots } from "../content/snapshots.ts";
+import { getSnapshots, isScreenshot } from "../content/snapshots.ts";
 import { useReveal } from "../hooks/useReveal.ts";
 import { Mockup } from "./Mockup";
 
@@ -23,14 +23,25 @@ export function SnapshotGallery({ project }: { project: Project }) {
   if (shots.length === 0) return null;
   return (
     <>
-      <p className="muted">Illustrations, not screenshots. All names and numbers are invented.</p>
+      <p className="muted">
+        {shots.every(isScreenshot)
+          ? "Real screenshots of the app running on demo data. All names and figures are invented."
+          : shots.some(isScreenshot)
+            ? "Real screenshots run on demo data, plus illustrations where real screens can't be shown."
+            : "Illustrations, not screenshots. All names and numbers are invented."}
+      </p>
       <ul ref={ref} className={`gallery stagger ${revealClass}`}>
         {shots.map((s, i) => (
           <li key={s.id} style={{ "--i": i } as React.CSSProperties}>
             <figure className={`shot shot--${s.frame}`}>
               <Mockup snapshot={s} />
               <figcaption>
-                <span className="shot__tag">Illustration</span> {s.caption}
+                {isScreenshot(s) ? (
+                  <span className="shot__tag shot__tag--real">Screenshot · demo data</span>
+                ) : (
+                  <span className="shot__tag">Illustration</span>
+                )}{" "}
+                {s.caption}
               </figcaption>
             </figure>
           </li>
