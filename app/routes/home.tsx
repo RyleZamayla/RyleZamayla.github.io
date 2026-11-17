@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 import { HubScene } from "../components/HubScene";
-import { FeaturedProject, ProjectList } from "../components/ProjectList";
+import { ProjectTabs } from "../components/ProjectTabs";
 import { SkillTree } from "../components/SkillTree";
 import { QuestLog } from "../components/QuestLog";
 import { ContactTerminal } from "../components/ContactTerminal";
-import { Band, Reveal } from "../components/Reveal";
+import { Band } from "../components/Reveal";
 import { AboutMe } from "../components/AboutMe";
 import { projects } from "../content/projects.ts";
 import { profile } from "../content/profile.ts";
@@ -19,7 +19,6 @@ export function meta() {
 }
 
 export default function Home() {
-  const [featured, ...rest] = projects;
   const count = (kind: string) => projects.filter((p) => p.kind === kind).length;
   return (
     <>
@@ -59,15 +58,10 @@ export default function Home() {
       <Band id="projects" labelledBy="projects-heading">
           <h2 id="projects-heading">Projects</h2>
           <p className="lede">
-            {count("personal")} personal projects and {count("professional")} work systems. Work projects use generic names; their
-            code is private.
+            {count("personal")} personal projects and {count("professional")} company systems. Company projects use generic names;
+            their code is private.
           </p>
-          {featured && (
-            <Reveal>
-              <FeaturedProject project={featured} />
-            </Reveal>
-          )}
-          <ProjectList projects={rest} />
+          <ProjectTabs projects={projects} featureFirst />
       </Band>
 
       <Band id="skills" alt labelledBy="skills-heading">

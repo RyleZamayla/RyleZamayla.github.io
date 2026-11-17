@@ -2426,3 +2426,39 @@ html.motion-on .about.reveal-armed.is-in .about__text > * {
 }
 html.motion-on .about.reveal-armed.is-in .about__text > :nth-child(2) { animation-delay: 0.15s; }
 html.motion-on .about.reveal-armed.is-in .about__text > :nth-child(3) { animation-delay: 0.3s; }
+
+/* Project tabs: personal and company projects */
+.ptabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--u) * 2);
+  margin-bottom: calc(var(--u) * 6);
+}
+.ptabs__tab {
+  font: inherit;
+  font-family: var(--pixel);
+  font-size: var(--step-2);
+  color: var(--paper-dim);
+  background: var(--panel);
+  border: 2px solid var(--edge);
+  padding: calc(var(--u) * 2) calc(var(--u) * 4);
+  cursor: pointer;
+}
+.ptabs__tab:hover {
+  border-color: var(--edge-hi);
+  color: var(--paper);
+}
+.ptabs__tab[aria-selected="true"] {
+  color: var(--room);
+  background: var(--mint);
+  border-color: var(--mint);
+}
+.ptabs__tab:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+.ptabs__count {
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  opacity: 0.8;
+}
