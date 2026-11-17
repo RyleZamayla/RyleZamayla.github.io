@@ -39,7 +39,8 @@ const boxes: Record<Spot, { x: number; y: number; w: number; h: number; name: st
   tablet: { x: 137, y: 62, w: 19, h: 12, name: "Tablet" },
   rack: { x: 161, y: 43, w: 28, h: 58, name: "Server rack" },
   clock: { x: 56, y: 10, w: 13, h: 13, name: "Wall clock" },
-  "queue-sign": { x: 79, y: 8, w: 30, h: 17, name: "Now-serving sign" },
+  "arrivals-sign": { x: 79, y: 8, w: 30, h: 17, name: "Arrivals board" },
+  jar: { x: 59, y: 62, w: 10, h: 12, name: "Coin jar" },
 };
 
 function R(props: { x: number; y: number; w: number; h: number; f: string; className?: string }) {
@@ -267,7 +268,7 @@ function Digits({ text, x, y, className }: { text: string; x: number; y: number;
   );
 }
 
-function QueueSign() {
+function ArrivalsSign() {
   return (
     <g>
       <R x={86} y={8} w={1} h={3} f={C.edge} />
@@ -284,6 +285,19 @@ function QueueSign() {
   );
 }
 
+function Jar() {
+  return (
+    <g>
+      <R x={60} y={62} w={8} h={2} f={C.edgeHi} />
+      <R x={59} y={64} w={10} h={10} f={C.edge} />
+      <R x={60} y={65} w={8} h={8} f={C.sky} />
+      <R x={61} y={70} w={3} h={2} f={C.ember} />
+      <R x={64} y={71} w={3} h={2} f={C.ember} />
+      <R x={62} y={68} w={3} h={2} f={C.mint} />
+    </g>
+  );
+}
+
 const art: Record<Spot, () => React.ReactElement> = {
   board: Board,
   monitor: Monitor,
@@ -293,7 +307,8 @@ const art: Record<Spot, () => React.ReactElement> = {
   tablet: Tablet,
   rack: Rack,
   clock: Clock,
-  "queue-sign": QueueSign,
+  "arrivals-sign": ArrivalsSign,
+  jar: Jar,
 };
 
 export function HubScene() {

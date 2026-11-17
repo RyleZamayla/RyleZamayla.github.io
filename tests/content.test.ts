@@ -4,6 +4,7 @@ import { projects, allMilestones } from "../app/content/projects.ts";
 import { skills, skillGroups } from "../app/content/skills.ts";
 import { achievements } from "../app/content/achievements.ts";
 import { profile } from "../app/content/profile.ts";
+import { existsSync } from "node:fs";
 import { snapshots } from "../app/content/snapshots.ts";
 
 const milestoneIds = new Set<string>();
@@ -36,7 +37,7 @@ test("commit references look like commit hashes and dates are real", () => {
     if (milestone.refKind === "commit") assert.match(milestone.ref ?? "", /^[0-9a-f]{7,8}$/, `${project.slug}/${milestone.id}`);
     assert.match(milestone.date, /^\d{4}-\d{2}-\d{2}$/);
     assert.ok(!Number.isNaN(Date.parse(milestone.date)), milestone.date);
-    assert.ok(milestone.date >= "2023-01-01" && milestone.date <= "2026-10-31", `${milestone.id} date out of audited range`);
+    assert.ok(milestone.date >= "2023-01-01" && milestone.date <= "2026-11-30", `${milestone.id} date out of audited range`);
   }
 });
 
@@ -67,4 +68,9 @@ test("every project has illustrated snapshots, and none are orphaned", () => {
   for (const key of Object.keys(snapshots)) assert.ok(slugs.has(key), `snapshots for unknown project ${key}`);
   const ids = Object.values(snapshots).flat().map((s) => s.id);
   assert.equal(new Set(ids).size, ids.length, "snapshot ids must be unique");
+});
+
+test("every screenshot a snapshot or tile points at exists", () => {
+  for (const shots of Object.values(snapshots))
+    for (const s of shots) if (s.image) assert.ok(existsSync(`public${s.image.src}`), `${s.id}: ${s.image.src} missing`);
 });

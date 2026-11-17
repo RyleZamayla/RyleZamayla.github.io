@@ -8,7 +8,7 @@ export const skills: Skill[] = [
   { id: "livewire", name: "Livewire", group: "Backend", evidence: ["sw-leave", "sw-schedules"] },
   { id: "filament", name: "Filament", group: "Backend", evidence: ["cp-tickets", "cp-mfa"] },
   { id: "domain-logic", name: "Payroll and business rules", group: "Backend", evidence: ["sw-daily-rate", "sw-premiums", "sw-corrections", "fo-kpi"] },
-  { id: "flutter", name: "Flutter", group: "Mobile", evidence: ["fa-offline", "fa-sync", "fa-signoff", "mq-scanner"] },
+  { id: "flutter", name: "Flutter", group: "Mobile", evidence: ["fa-offline", "fa-sync", "fa-signoff", "ws-transactions"] },
   { id: "offline-sync", name: "Offline-first sync", group: "Mobile", evidence: ["fa-sync", "fa-queue", "fa-audit", "fa-breaker"] },
   { id: "push", name: "Push notifications", group: "Mobile", evidence: ["fa-push"] },
   { id: "m365", name: "Microsoft 365 and Graph", group: "Integrations", evidence: ["fo-onedrive", "cp-graph"] },

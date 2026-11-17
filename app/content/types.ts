@@ -63,7 +63,7 @@ export interface Project {
   /** Plain statement of what can and can't be shown, and why. */
   sourceNote: string;
   /** Where this project sits in the landing-page scene. */
-  sceneSpot: "monitor" | "laptop" | "phone" | "rack" | "board" | "tablet" | "notebook" | "clock" | "queue-sign";
+  sceneSpot: "monitor" | "laptop" | "phone" | "rack" | "board" | "tablet" | "notebook" | "clock" | "arrivals-sign" | "jar";
 }
 
 export interface Skill {

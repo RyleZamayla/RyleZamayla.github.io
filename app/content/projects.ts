@@ -1,7 +1,7 @@
 import type { Project } from "./types.ts";
 
 /*
- * Every statement here comes from the October 2026 audits: the time tracker's
+ * Every statement here comes from the October and November 2026 audits: the time tracker's
  * source and dated backups, and commit logs exported from each repository.
  * Professional projects use generic titles because their code is private.
  * Keep it skimmable: taglines under ~10 words, one line per milestone field.
@@ -422,82 +422,290 @@ export const projects: Project[] = [
     "outcome": "Repeatable task setup, tested from day one."
   },
   {
-    "slug": "mobile-queue-app",
-    "title": "Mobile Queue Management App",
+    "slug": "wais",
+    "title": "WAIS",
     "kind": "personal",
-    "tagline": "Flutter front end for a client's student queuing system.",
-    "period": "Jun 2023",
-    "problem": "A client needed a mobile front end for their student queue system.",
-    "overview": "QR code scanning and a student queue form, with on-device storage.",
-    "role": "Built the structure and screens (6 of 35 commits)",
+    "tagline": "A private money manager for iPhone and Android.",
+    "period": "Nov 2026 to now",
+    "problem": "I wanted a money tracker where all my data stays on my own phone.",
+    "overview": "Tracks spending, income, accounts, budgets and savings goals. Everything is stored on the device, with no account and no server.",
+    "role": "Sole developer",
     "stack": [
       "Flutter",
-      "Dart"
+      "Dart",
+      "Riverpod",
+      "Drift (SQLite)",
+      "fl_chart"
     ],
     "integrations": [
-      "QR scanning",
-      "SQLite",
-      "On-device storage"
+      "Face ID and fingerprint lock",
+      "Local notifications",
+      "Frankfurter exchange rates"
     ],
     "stats": [
       {
-        "value": "2 days",
-        "label": "to set up the app and its core screens",
-        "source": "Project history, Jun 2023"
+        "value": "6 days",
+        "label": "from empty project to backup, passcode lock and in-app tour",
+        "source": "Project history, 9–14 Nov 2026"
+      },
+      {
+        "value": "47",
+        "label": "automated test files",
+        "source": "The project's test folder"
       }
     ],
     "phases": [
       {
-        "title": "Initial build",
-        "period": "5–6 Jun 2023",
-        "summary": "Setup, core screens and scope trimming.",
+        "title": "Foundations",
+        "period": "9 Nov 2026",
+        "summary": "Database, accounts and transactions on day one.",
         "milestones": [
           {
-            "id": "mq-setup",
-            "title": "Project setup and first layout",
-            "date": "2023-06-05",
-            "ref": "2c78922",
+            "id": "ws-foundation",
+            "title": "Project setup and local database",
+            "date": "2026-11-09",
+            "ref": "c3db0bb",
             "refKind": "commit",
-            "change": "Project setup and the first app layout.",
-            "significance": "The structure the core screens were built on.",
+            "change": "Navigation shell, theme, database schema and seed data.",
+            "significance": "Data lives on the phone from the first build.",
             "verification": "commit"
           },
           {
-            "id": "mq-scanner",
-            "title": "QR code scanner screen",
-            "date": "2023-06-06",
-            "ref": "3362094",
+            "id": "ws-accounts",
+            "title": "Accounts and card billing cycles",
+            "date": "2026-11-09",
+            "ref": "3856071",
             "refKind": "commit",
-            "change": "The QR code scanner screen.",
-            "significance": "Scanning is the app's main way in.",
+            "change": "Accounts and categories, with credit-card billing cycles.",
+            "significance": "Balances come from transactions, not typed-in totals.",
             "verification": "commit"
           },
           {
-            "id": "mq-form",
-            "title": "Student queue form",
-            "date": "2023-06-06",
-            "ref": "ea59164",
+            "id": "ws-transactions",
+            "title": "Add and edit transactions",
+            "date": "2026-11-09",
+            "ref": "7d0e623",
             "refKind": "commit",
-            "change": "The student queue form.",
-            "significance": "Where a student's place in the queue is captured.",
+            "change": "A form for entering and editing transactions.",
+            "significance": "The screen everything else builds on.",
+            "verification": "commit"
+          }
+        ]
+      },
+      {
+        "title": "Reports and safety",
+        "period": "10 Nov 2026",
+        "summary": "Charts, export, backup and a lock.",
+        "milestones": [
+          {
+            "id": "ws-stats",
+            "title": "Stats tab with chart and budgets",
+            "date": "2026-11-10",
+            "ref": "5388d21",
+            "refKind": "commit",
+            "change": "Category chart, budget progress and notes views.",
+            "significance": "Shows where the money goes at a glance.",
             "verification": "commit"
           },
           {
-            "id": "mq-trim",
-            "title": "Trimmed to what the client needed",
-            "date": "2023-06-06",
-            "ref": "2f4e54e",
+            "id": "ws-export",
+            "title": "Excel and CSV export",
+            "date": "2026-11-10",
+            "ref": "a1b2bd1",
             "refKind": "commit",
-            "change": "Removed navigation and a button the client didn't need.",
-            "significance": "Kept the app focused on the brief.",
+            "change": "Export transactions to Excel or CSV.",
+            "significance": "The data stays portable.",
+            "verification": "commit"
+          },
+          {
+            "id": "ws-backup",
+            "title": "Backup, restore and reset",
+            "date": "2026-11-10",
+            "ref": "a14250c",
+            "refKind": "commit",
+            "change": "Backup to a zip file, restore from it, or reset.",
+            "significance": "No server means the user owns their backups.",
+            "verification": "commit"
+          },
+          {
+            "id": "ws-lock",
+            "title": "Passcode and biometric lock",
+            "date": "2026-11-10",
+            "ref": "3c71ed2",
+            "refKind": "commit",
+            "change": "Passcode lock with Face ID or fingerprint.",
+            "significance": "Money data stays private on a shared phone.",
+            "verification": "commit"
+          }
+        ]
+      },
+      {
+        "title": "Beyond the basics",
+        "period": "12–14 Nov 2026",
+        "summary": "Events, foreign currency and a guided tour.",
+        "milestones": [
+          {
+            "id": "ws-fx",
+            "title": "Planned events and foreign-currency payments",
+            "date": "2026-11-12",
+            "ref": "b8c9b1d",
+            "refKind": "commit",
+            "change": "Budgeted events, and payments entered in other currencies.",
+            "significance": "Trips and foreign spending are tracked properly.",
+            "verification": "commit"
+          },
+          {
+            "id": "ws-sample",
+            "title": "A full year of sample data",
+            "date": "2026-11-12",
+            "ref": "e8d6a46",
+            "refKind": "commit",
+            "change": "Debug sample data covering every feature.",
+            "significance": "Every screen can be tested with realistic volume.",
+            "verification": "commit"
+          },
+          {
+            "id": "ws-tour",
+            "title": "Interactive app tour",
+            "date": "2026-11-14",
+            "ref": "8ab56f8",
+            "refKind": "commit",
+            "change": "A guided tour, always available under More.",
+            "significance": "New users learn the app inside the app.",
+            "verification": "commit"
+          },
+          {
+            "id": "ws-light",
+            "title": "Light theme",
+            "date": "2026-11-14",
+            "ref": "b5b0a59",
+            "refKind": "commit",
+            "change": "A light theme beside the original dark one.",
+            "significance": "The theme system was ready for it from day one.",
             "verification": "commit"
           }
         ]
       }
     ],
-    "sourceNote": "Personal freelance project. The client is not named and the source is private.",
-    "sceneSpot": "queue-sign",
-    "outcome": "Delivered the app's foundation and core screens."
+    "sourceNote": "Personal project. Source code is private for now.",
+    "sceneSpot": "jar",
+    "outcome": "Built in six days: local data, backup, passcode lock and a guided tour."
+  },
+  {
+    "slug": "isbogi",
+    "title": "ISBOGI",
+    "kind": "personal",
+    "tagline": "Live van arrivals and seats, built as a research pilot.",
+    "period": "Nov 2026",
+    "problem": "I needed a working app to test whether commuters find live van arrivals and seat counts useful.",
+    "overview": "A phone web app showing van arrivals, seats and service alerts, plus a facilitator panel for running test scenarios. All vehicle data is simulated. Runs on Node.js with no installed packages.",
+    "role": "Sole developer",
+    "stack": [
+      "Node.js",
+      "Vanilla JavaScript",
+      "Leaflet"
+    ],
+    "integrations": [
+      "OpenStreetMap",
+      "OSRM routing",
+      "Nominatim place search"
+    ],
+    "stats": [
+      {
+        "value": "4",
+        "label": "routes: one from the research, three invented for testing",
+        "source": "The project's README"
+      },
+      {
+        "value": "6",
+        "label": "test scenarios the facilitator can run live",
+        "source": "The facilitator panel"
+      },
+      {
+        "value": "0",
+        "label": "installed packages needed to run it",
+        "source": "Node.js built-ins; the map library is bundled"
+      }
+    ],
+    "phases": [
+      {
+        "title": "The commuter app",
+        "period": "2 Nov 2026",
+        "summary": "Arrivals, seats and a map that copes with weak signal.",
+        "milestones": [
+          {
+            "id": "is-sim",
+            "title": "Simulated fleet and API",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "A server that simulates vans, arrival times and seats on four routes.",
+            "significance": "A realistic test with no real vehicle data.",
+            "verification": "code"
+          },
+          {
+            "id": "is-board",
+            "title": "Stop-centred departures board",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "Next vans with countdown, status and a seat map.",
+            "significance": "Answers the commuter's question: when, and is there a seat?",
+            "verification": "code"
+          },
+          {
+            "id": "is-weak",
+            "title": "Built for weak signal",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "Keeps the last update and warns when data is stale.",
+            "significance": "The app stays honest when the connection drops.",
+            "verification": "code"
+          },
+          {
+            "id": "is-i18n",
+            "title": "English and Bisaya",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "A language switch with a first-draft Bisaya translation.",
+            "significance": "Respondents can use the language they prefer.",
+            "verification": "code"
+          }
+        ]
+      },
+      {
+        "title": "The facilitator panel",
+        "period": "2 Nov 2026",
+        "summary": "Run test scenarios and edit routes without code.",
+        "milestones": [
+          {
+            "id": "is-admin",
+            "title": "Facilitator panel with test scenarios",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "PIN-protected panel to trigger delays, breakdowns and signal loss.",
+            "significance": "Every respondent sees the same scenario.",
+            "verification": "code"
+          },
+          {
+            "id": "is-editor",
+            "title": "Route editor with safe saves",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "Edit routes and stops on a map; each save keeps a backup.",
+            "significance": "A bad edit can always be undone.",
+            "verification": "code"
+          }
+        ]
+      }
+    ],
+    "sourceNote": "Personal research project. All vehicle data is simulated and three of the four routes are invented test routes. Source code is private for now.",
+    "sceneSpot": "arrivals-sign",
+    "outcome": "A working pilot with a facilitator panel for repeatable user testing."
   },
   {
     "slug": "field-operations-platform",

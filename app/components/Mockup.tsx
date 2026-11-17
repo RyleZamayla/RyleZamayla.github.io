@@ -16,7 +16,7 @@ export function Mockup({
   if (frame === "screenshot" && image) {
     return (
       <div
-        className={`mock mock--screenshot mock--${size}`}
+        className={`mock mock--screenshot mock--${size}${image.height > image.width ? " mock--portrait" : ""}`}
         aria-hidden={size === "thumb" ? true : undefined}
       >
         {size === "full" ? (

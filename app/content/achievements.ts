@@ -15,8 +15,8 @@ export const achievements: Achievement[] = [
   {
     "id": "commits",
     "quest": "main",
-    "title": "Building and shipping since 2023",
-    "detail": "Nine projects across web, mobile and automation, from a 2023 freelance app to today's work systems.",
+    "title": "Building and shipping across web, mobile and automation",
+    "detail": "Ten projects, from personal apps to today's work systems.",
     "source": "Project histories",
     "evidence": []
   },
