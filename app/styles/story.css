@@ -236,7 +236,7 @@ html.story-pinned .title {
   width: 100%;
   height: 100%;
   display: block;
-  transform-origin: 72.5% 57%;
+  transform-origin: 71.2% 57%;
   /* Dive into the monitor: slide it to the middle of the screen while zooming in. */
   transform: translate(calc(var(--p, 0) * -22.5%), calc(var(--p, 0) * -6.7%)) scale(calc(1 + var(--p, 0) * 1.7));
   will-change: transform;
@@ -1154,7 +1154,7 @@ html.motion-on .ts-steam { animation: steam 3.2s ease-in-out infinite; }
   }
   /* The cat keeps its spot on the desk, shifted clear of the buttons. */
   .ts-catwrap {
-    transform: translate(100px, 0);
+    transform: translate(108px, 0);
   }
   .ts-mug {
     display: none;

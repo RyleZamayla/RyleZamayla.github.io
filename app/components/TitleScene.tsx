@@ -82,7 +82,7 @@ const keys = (() => {
 
 export function TitleScene() {
   return (
-    <svg className="title__scene" viewBox="0 0 320 180" preserveAspectRatio="xMaxYMax slice" shapeRendering="crispEdges" aria-hidden="true" focusable="false">
+    <svg className="title__scene" viewBox="0 0 326 180" preserveAspectRatio="xMaxYMax slice" shapeRendering="crispEdges" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="ts-wall" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#090720" />
@@ -145,13 +145,13 @@ export function TitleScene() {
       </defs>
 
       {/* Back wall with an RGB light strip */}
-      <rect width="320" height="146" fill="url(#ts-wall)" />
+      <rect width="326" height="146" fill="url(#ts-wall)" />
       <g className="ts-l" style={style({ "--dy": "0px" })}>
         {stars.map((s, i) => (
           <rect key={i} className={s.tw ? "ts-twinkle" : undefined} x={s.x} y={s.y} width="1" height="1" fill="#f4eee0" opacity="0.4" style={s.tw ? style({ animationDelay: `${(i % 7) * 0.4}s` }) : undefined} />
         ))}
-        <rect y="12" width="320" height="1" fill="url(#ts-led)" className="ts-rgbstrip" />
-        <rect y="9" width="320" height="7" fill="url(#ts-led)" opacity="0.1" />
+        <rect y="12" width="326" height="1" fill="url(#ts-led)" className="ts-rgbstrip" />
+        <rect y="9" width="326" height="7" fill="url(#ts-led)" opacity="0.1" />
       </g>
 
       {/* Shelves: motorcycle figurines and a chess set */}
@@ -234,15 +234,15 @@ export function TitleScene() {
       {/* Desk, keyboard, mouse and the PC */}
       <g className="ts-l" style={style({ "--dy": "10px" })}>
         {/* the desk top, a lit back edge, wood grain, the glow of the screen, then the front face */}
-        <rect y={DESK} width="320" height="14" fill="url(#ts-top)" />
-        <rect y={DESK} width="320" height="1" fill="#e2ac78" />
+        <rect y={DESK} width="326" height="14" fill="url(#ts-top)" />
+        <rect y={DESK} width="326" height="1" fill="#e2ac78" />
         <path d={path([[6, 145, 34, 1], [52, 149, 46, 1], [110, 146, 30, 1], [18, 151, 26, 1], [140, 150, 24, 1], [270, 146, 36, 1], [262, 151, 30, 1]])} fill="#6b4129" opacity="0.4" />
         <path d={path([[4, 143, 22, 1], [60, 147, 28, 1], [118, 143, 18, 1]])} fill="#e2ac78" opacity="0.18" />
         <ellipse cx="232" cy="145" rx="64" ry="7" fill="url(#ts-reflect)" />
-        <rect y={DESK + 14} width="320" height="1" fill="#d8a06a" opacity="0.65" />
-        <rect y={DESK + 15} width="320" height="5" fill="url(#ts-front)" />
-        <rect y={DESK + 20} width="320" height="3" fill="#000" opacity="0.5" />
-        <rect y={DESK + 23} width="320" height="17" fill="#07051a" />
+        <rect y={DESK + 14} width="326" height="1" fill="#d8a06a" opacity="0.65" />
+        <rect y={DESK + 15} width="326" height="5" fill="url(#ts-front)" />
+        <rect y={DESK + 20} width="326" height="3" fill="#000" opacity="0.5" />
+        <rect y={DESK + 23} width="326" height="17" fill="#07051a" />
         <rect x="177" y="143" width="92" height="11" fill="#000" opacity="0.35" />
         <rect x="176" y="141" width="92" height="11" fill="#14122e" />
         <rect x="176" y="141" width="92" height="1" fill="#2a2660" />
@@ -295,12 +295,12 @@ export function TitleScene() {
           <Sprite s={chessKnight} x={111} y={DESK - 13} />
           <Sprite s={chessRook} x={121} y={DESK - 12} />
           <Sprite s={headphones} x={134} y={DESK - 16} />
-          <Sprite s={plant} x={6} y={DESK - 14} />
+          <Sprite s={plant} x={9} y={DESK - 14} />
         </g>
       </g>
 
       {/* Room vignette: pulls the eye to the screen and gives the scene depth */}
-      <rect width="320" height="180" fill="url(#ts-vignette)" pointerEvents="none" />
+      <rect width="326" height="180" fill="url(#ts-vignette)" pointerEvents="none" />
 
       {/* Specks of light drifting off the screen */}
       <g className="ts-l" style={style({ "--dy": "22px" })}>
