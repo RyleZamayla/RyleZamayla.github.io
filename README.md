@@ -55,8 +55,20 @@ Easter eggs: pet the cat on the desk, and try the Konami code.
 1. Add a `Project` object to `app/content/projects.ts` with its phases and
    milestones. Give each milestone a unique `id` and an honest `verification`.
 2. Give it a `sceneSpot` (the object on the desk that links to it).
-3. Point any relevant skills in `app/content/skills.ts` at its milestone ids.
-4. Run `npm test`. Pre-rendering picks the new page up automatically.
+3. Add its snapshots to `app/content/snapshots.ts`. Personal projects use real
+   screenshots (images in `public/snapshots/<slug>/`); company projects use
+   illustrations built from blocks, never real screens.
+4. Add a product tile for the project lists to `thumbs` in the same file.
+5. Point any relevant skills in `app/content/skills.ts` at its milestone ids.
+6. Run `npm test`. Pre-rendering picks the new page up automatically.
+
+## Resume
+
+The one-page resume lives at `public/Bracho_Joshua_Ryle_Resume.pdf` and is
+linked from the hero, the contact terminal and the footer (`profile.resume`).
+It is a public file, so it contains whatever contact details are printed on it.
+Replace the file when the resume changes and keep its project list in step
+with `app/content/projects.ts`.
 
 ## Deployment
 
@@ -71,6 +83,8 @@ One-time setup: in the repository's **Settings → Pages**, set **Source** to
 
 ## Content rules
 
-- Professional projects use generic titles and are described from commit
-  history only. No internal names, client names, code or screenshots.
+- Company projects use generic titles and are described from commit history
+  only. No internal names, client names, code or screenshots. Their snapshots
+  are illustrations with invented data and are labelled as such.
+- Personal projects show real screenshots only, captured on demo or sample data.
 - Numbers must name their source. Self-reported figures say so.
