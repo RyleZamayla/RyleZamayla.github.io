@@ -156,7 +156,7 @@ main:focus {
   position: absolute;
   left: calc(var(--u) * 3);
   top: -100px;
-  z-index: 10;
+  z-index: 70;
   background: var(--paper);
   color: var(--room);
   padding: calc(var(--u) * 2) calc(var(--u) * 4);
@@ -216,8 +216,17 @@ main:focus {
 
 /* ---------- Header and footer ---------- */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   border-bottom: 4px solid var(--edge);
   background: var(--room);
+  box-shadow: 0 6px 0 rgb(0 0 0 / 0.2);
+}
+/* Anchor links (About, Skills...) stop below the sticky header, not under it.
+   --header-h is measured in SiteHeader because the header wraps on small screens. */
+html {
+  scroll-padding-top: calc(var(--header-h, 84px) + var(--u) * 2);
 }
 .site-header__inner {
   display: flex;
@@ -3059,4 +3068,58 @@ html.motion-on .about.reveal-armed.is-in .about__text > :nth-child(3) { animatio
 @media (max-width: 420px) {
   .pt { --s: 0.56; }
   .featured .pt { --s: 0.56; }
+}
+
+/* Small screens: keep the sticky header to two slim rows (brand and motion
+   toggle, then the links) so it never takes a fifth of the screen. The toggle's
+   label stays available to screen readers. */
+@media (max-width: 700px) {
+  .site-header {
+    box-shadow: 0 4px 0 rgb(0 0 0 / 0.2);
+  }
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand toggle"
+      "nav nav";
+    gap: calc(var(--u) * 1) calc(var(--u) * 3);
+    padding-block: calc(var(--u) * 2);
+  }
+  .site-header__inner > .brand {
+    grid-area: brand;
+    font-size: var(--step-1);
+  }
+  .site-header__inner > nav {
+    grid-area: nav;
+    min-width: 0;
+    overflow-x: auto;
+  }
+  .site-header__inner > .motion-toggle {
+    grid-area: toggle;
+  }
+  .brand__mark {
+    width: 30px;
+    height: 30px;
+    font-size: var(--step-1);
+  }
+  .nav {
+    flex-wrap: nowrap;
+    gap: 0 calc(var(--u) * 4);
+    white-space: nowrap;
+  }
+  .nav a {
+    font-size: var(--step-0);
+  }
+  .motion-toggle {
+    padding-inline: calc(var(--u) * 2.5);
+  }
+  .motion-toggle__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }

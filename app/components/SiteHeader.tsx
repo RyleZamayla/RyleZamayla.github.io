@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router";
 import { profile } from "../content/profile.ts";
 import { MotionToggle } from "./MotionToggle";
@@ -10,8 +11,19 @@ const sections = [
 ];
 
 export function SiteHeader() {
+  const header = useRef<HTMLElement>(null);
+  // Tell the page how tall the sticky header is so anchor links land below it.
+  useEffect(() => {
+    const el = header.current;
+    if (!el) return;
+    const set = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <header className="site-header">
+    <header ref={header} className="site-header">
       <div className="wrap site-header__inner">
         <Link to="/" viewTransition className="brand" aria-label={`${profile.name}, home`}>
           <span className="brand__mark" aria-hidden="true">

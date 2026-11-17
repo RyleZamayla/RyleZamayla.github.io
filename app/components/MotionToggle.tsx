@@ -18,7 +18,7 @@ export function MotionToggle() {
       }}
     >
       <span className={`motion-toggle__icon ${on ? "is-pause" : "is-play"}`} aria-hidden="true" />
-      {on ? "Pause animations" : "Play animations"}
+      <span className="motion-toggle__label">{on ? "Pause animations" : "Play animations"}</span>
     </button>
   );
 }
