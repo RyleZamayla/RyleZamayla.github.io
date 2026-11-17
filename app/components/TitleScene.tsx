@@ -154,7 +154,7 @@ export function TitleScene() {
         <rect y="9" width="326" height="7" fill="url(#ts-led)" opacity="0.1" />
       </g>
 
-      {/* Shelves: motorcycle figurines and a chess set */}
+      {/* Shelf: motorcycle figurines */}
       <g className="ts-l" style={style({ "--dy": "3px" })}>
         {/* the shelf casts a soft shadow on the wall, then has a lit top, a front face and brackets */}
         <rect x="164" y="65" width="132" height="5" fill="#000" opacity="0.28" />
@@ -168,21 +168,26 @@ export function TitleScene() {
         <Sprite s={bikes.cafe} x={203} y={44} scale={1.2} />
         <Sprite s={bikes.scrambler} x={240} y={44} scale={1.2} />
         <Sprite s={plant} x={280} y={48} />
-        <rect x="196" y="41" width="100" height="4" fill="#000" opacity="0.26" />
-        <path d={path([[196, 37, 100, 1]])} fill="#d9a06c" />
-        <rect x="196" y="38" width="100" height="2" fill="url(#ts-shelf)" />
-        <rect x="196" y="40" width="100" height="1" fill="#2a190e" />
-        <Sprite s={chessKing} x={202} y={23} />
-        <Sprite s={chessKnight} x={216} y={25} />
-        <Sprite s={chessRook} x={229} y={26} />
         <path d={path([[251, 23, 26, 16]])} fill="#000" opacity="0.35" />
         <path d={path([[250, 22, 26, 16]])} fill="#3a3670" />
         <path d={path([[250, 22, 26, 1], [250, 22, 1, 16]])} fill="#6a64b0" />
         <path d={path([[250, 37, 26, 1], [275, 22, 1, 16]])} fill="#14112e" />
         <path d={path([[252, 24, 22, 12]])} fill="#120f30" />
         <path d={path([[254, 27, 8, 1], [254, 30, 14, 1], [254, 33, 10, 1], [270, 26, 3, 8]])} fill="#6fe3b4" opacity="0.8" />
-        <Sprite s={badmintonRacket} x={304} y={24} />
-        <Sprite s={tableTennisPaddle} x={304} y={58} scale={0.9} />
+      </g>
+
+      {/* The left wall: racket, paddle and a small chess shelf, to balance the shelves on the right. Hidden where the copy needs the room. */}
+      <g className="ts-l ts-leftwall" style={style({ "--dy": "3px" })}>
+        <Sprite s={badmintonRacket} x={9} y={34} />
+        <Sprite s={tableTennisPaddle} x={25} y={44} scale={0.9} />
+        <rect x="6" y="100" width="44" height="5" fill="#000" opacity="0.28" />
+        <path d={path([[6, 93, 44, 1]])} fill="#d9a06c" />
+        <rect x="6" y="94" width="44" height="2" fill="url(#ts-shelf)" />
+        <rect x="6" y="96" width="44" height="1" fill="#2a190e" />
+        <path d={path([[12, 97, 2, 5], [42, 97, 2, 5]])} fill="#5e3b27" />
+        <Sprite s={chessKing} x={12} y={79} />
+        <Sprite s={chessKnight} x={24} y={81} />
+        <Sprite s={chessRook} x={36} y={82} />
       </g>
 
       {/* The monitor: project work glowing in the dark */}
@@ -291,10 +296,7 @@ export function TitleScene() {
         {/* left of the monitor: figurine, chess, headphones, plant */}
         <g className="ts-leftprops">
           <Sprite s={bikes.sport} x={70} y={DESK - 13} scale={1} />
-          <Sprite s={chessKing} x={101} y={DESK - 15} />
-          <Sprite s={chessKnight} x={111} y={DESK - 13} />
-          <Sprite s={chessRook} x={121} y={DESK - 12} />
-          <Sprite s={headphones} x={134} y={DESK - 16} />
+            <Sprite s={headphones} x={112} y={DESK - 16} />
           <Sprite s={plant} x={9} y={DESK - 14} />
         </g>
       </g>
