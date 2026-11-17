@@ -11,9 +11,13 @@ commit or build that supports it.
   fully static, direct links and refreshes work on GitHub Pages, and search
   engines see each page's full text.
 - TypeScript throughout. No backend, database or runtime git access.
-- Fonts are self-hosted: Jersey 10 (headings) and JetBrains Mono (body), both
-  under the SIL Open Font License.
-- All pixel art is hand-drawn SVG in `app/components/HubScene.tsx`.
+- Fonts are self-hosted: Jersey 10 (pixel headings), Inter (body) and
+  JetBrains Mono (labels and code), all under the SIL Open Font License.
+- All pixel art is hand-drawn SVG: the project desk in `HubScene.tsx`, the
+  title-screen workstation in `TitleScene.tsx`, and small sprites (motorcycles,
+  chess pieces, rackets, PC, chest, campfire) from character maps in
+  `app/lib/sprites.ts`. The portrait on the character card is a real image
+  (`public/profile.webp`), not pixel art.
 
 ## Running it
 
@@ -38,6 +42,46 @@ npm run preview    # serve build/client the way GitHub Pages does (port 4173)
 | `tests/content.test.ts` | Fails the build if a skill or achievement points at a milestone that doesn't exist, commit counts stop adding up, an internal name leaks into content, or the email address is stored whole. |
 | `scripts/postbuild.mjs` | Copies React Router's SPA fallback to `404.html` so unknown URLs get a styled 404. |
 | `scripts/serve.mjs` | Local server that mimics GitHub Pages for checking a build. |
+
+## The story (home page)
+
+The home page is a scroll-driven story in chapters: title screen, I the hub,
+II side quests, III the main quest, IV skill tree, V loot, then a save point.
+Chapters II and III cycle through the personal and company projects.
+
+On a screen at least 900 x 620 with animations on, `<html>` gets
+`story-pinned` and each chapter becomes a tall track with a full-height stage
+that sticks while you scroll (`app/lib/story.ts`). The hook publishes progress
+to CSS as `--p` and `--sp` and marks the active step, so every visual is plain
+CSS. Everywhere else (phones, short screens, reduced motion, animations
+paused) nothing is pinned and every step simply shows, one after another.
+
+- `data-step-i` marks a step inside a chapter; `data-pip-i` marks progress pips.
+- Tabbing into a hidden step scrolls to it, so keyboard use never lands on
+  something invisible.
+- The pin class is set by an inline script before first paint, so the page does
+  not jump when it loads.
+- Content is all in the static HTML; the effects only enhance it.
+- Chapter ids (`about`, `side-quests`, `main-quest`, `skills`, `quests`,
+  `contact`) double as the header's "you are here" label and nav highlight.
+
+### The skill web and the loot
+
+- `app/content/skills.ts`: every skill, its verified milestones (one level
+  each, up to 5) and `links` to the skills it was used with. A test fails if
+  any milestone backs no skill, so new work can't be added without the tree
+  noticing. `secretSkills` are self-reported hobbies for the hidden Garage
+  branch and are kept apart from the evidence rules.
+- `app/lib/skillGraph.ts`: lays the web out deterministically (branch islands,
+  no overlapping labels, tested), finds paths between skills and arrow-key
+  neighbours. `SkillTree.tsx` is the interface: hover, click, trace a path,
+  surprise me, explore everything to unlock the Garage.
+- `app/lib/loot.ts`: a quest's rarity is how many verified milestones back it
+  (none = common, 1-2 rare, 3 epic, 4+ legendary), and XP follows rarity.
+  `QuestLog.tsx` adds filters, sorting, expandable proof and the chest.
+
+Styles for all of this live in `app/styles/story.css`, loaded after
+`global.css`, which also gives every page the glass-and-glow theme.
 
 ## Animation
 
