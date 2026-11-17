@@ -72,6 +72,8 @@ export interface Skill {
   group: SkillGroup;
   /** Milestone ids that demonstrate this skill. Checked by tests/content.test.ts. */
   evidence: string[];
+  /** Other skills it was used with or builds on. Drawn as the connections in the skill web. */
+  links: string[];
 }
 
 export type SkillGroup = "Backend" | "Mobile" | "Frontend" | "Integrations" | "Security" | "Tooling";
