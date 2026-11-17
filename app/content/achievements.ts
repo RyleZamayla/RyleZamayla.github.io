@@ -13,6 +13,29 @@ export const achievements: Achievement[] = [
     ]
   },
   {
+    "id": "isbogi",
+    "quest": "side",
+    "title": "Built a research pilot with its own control panel",
+    "detail": "A simulated van fleet, a live map and a facilitator panel for running repeatable user tests, in November 2026.",
+    "source": "Project history",
+    "evidence": [
+      "is-sim",
+      "is-admin"
+    ]
+  },
+  {
+    "id": "wais",
+    "quest": "side",
+    "title": "Built a private money app in six days",
+    "detail": "WAIS went from an empty project to backup, passcode lock and a guided tour, 9–14 November 2026.",
+    "source": "Commit history",
+    "evidence": [
+      "ws-foundation",
+      "ws-backup",
+      "ws-tour"
+    ]
+  },
+  {
     "id": "commits",
     "quest": "main",
     "title": "Building and shipping across web, mobile and automation",

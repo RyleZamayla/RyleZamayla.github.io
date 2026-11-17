@@ -654,6 +654,16 @@ export const projects: Project[] = [
             "verification": "code"
           },
           {
+            "id": "is-map",
+            "title": "Live map with an offline fallback",
+            "date": "2026-11-02",
+            "ref": "README and source, 2 Nov",
+            "refKind": "build",
+            "change": "Vans on every route on an OpenStreetMap map, with a simple sketch if tiles fail.",
+            "significance": "The map still helps when the connection is poor.",
+            "verification": "code"
+          },
+          {
             "id": "is-weak",
             "title": "Built for weak signal",
             "date": "2026-11-02",

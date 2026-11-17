@@ -5,7 +5,7 @@ import { pageMeta } from "../lib/meta.ts";
 export function meta() {
   return pageMeta({
     title: "Projects: Joshua Ryle Zamayla Bracho",
-    description: "Personal and professional projects in Laravel, Flutter and Python, with development timelines.",
+    description: "Personal and company projects in Laravel, Flutter, Python and Node.js, with development timelines.",
     path: "/projects/",
   });
 }
