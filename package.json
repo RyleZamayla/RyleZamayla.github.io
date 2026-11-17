@@ -10,6 +10,7 @@
     "test": "node --experimental-strip-types --no-warnings --test tests/content.test.ts"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "5.2.8",
     "@fontsource/jersey-10": "5.3.0",
     "@fontsource/jetbrains-mono": "5.3.0",
     "@react-router/node": "7.18.4",

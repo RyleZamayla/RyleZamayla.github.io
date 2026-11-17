@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router";
 import { profile } from "../content/profile.ts";
+import { chapters, useChapterSpy } from "../lib/story.ts";
 import { MotionToggle } from "./MotionToggle";
 
 const sections = [
@@ -10,8 +11,14 @@ const sections = [
   { to: "/#contact", label: "Contact" },
 ];
 
+type Chapter = (typeof chapters)[number];
+
 export function SiteHeader() {
   const header = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  const [chapter, setChapter] = useState<Chapter | null>(null);
+  useChapterSpy(pathname === "/", setChapter);
+
   // Tell the page how tall the sticky header is so anchor links land below it.
   useEffect(() => {
     const el = header.current;
@@ -22,6 +29,8 @@ export function SiteHeader() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  const here = chapter?.nav ?? null;
   return (
     <header ref={header} className="site-header">
       <div className="wrap site-header__inner">
@@ -34,17 +43,22 @@ export function SiteHeader() {
         <nav aria-label="Main">
           <ul className="nav">
             <li>
-              <NavLink to="/projects" end={false} viewTransition>
+              <NavLink to="/projects" end={false} viewTransition className={here === "/projects" ? "is-here" : undefined}>
                 Projects
               </NavLink>
             </li>
             {sections.map((s) => (
               <li key={s.to}>
-                <Link to={s.to}>{s.label}</Link>
+                <Link to={s.to} className={here === s.to ? "is-here" : undefined} aria-current={here === s.to ? "location" : undefined}>
+                  {s.label}
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
+        <p className="hud-chapter" aria-hidden="true">
+          {chapter && chapter.id !== "start" ? chapter.label : ""}
+        </p>
         <MotionToggle />
       </div>
     </header>

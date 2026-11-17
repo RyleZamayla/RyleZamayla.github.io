@@ -1,0 +1,1747 @@
+/* ==========================================================================
+   The story theme: a modern frame around the pixel art.
+   Loaded after global.css, so it restyles shared pieces (header, buttons,
+   panels) for every page, then adds the scroll-driven chapters for the home page.
+   ========================================================================== */
+:root {
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --glow-mint: 0 0 0 1px rgb(111 227 180 / 0.45), 0 10px 40px rgb(111 227 180 / 0.2);
+}
+
+/* ---------- A softly lit night sky behind everything ---------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 650px at 85% -8%, rgb(143 124 255 / 0.2), transparent 62%),
+    radial-gradient(900px 600px at -8% 32%, rgb(111 227 180 / 0.08), transparent 58%),
+    radial-gradient(900px 600px at 70% 112%, rgb(255 154 82 / 0.08), transparent 60%);
+}
+
+/* ---------- Header: a glass HUD bar ---------- */
+.site-header {
+  background: rgb(12 10 29 / 0.62);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border-bottom: 1px solid var(--glass-line);
+  box-shadow: none;
+}
+.brand__mark {
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--ember), var(--gold));
+  box-shadow: 0 6px 18px rgb(255 154 82 / 0.35);
+}
+.nav a {
+  padding: 4px 14px;
+  border-bottom: 0;
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+.nav a:hover,
+.nav a.active,
+.nav a.is-here {
+  background: var(--glass-strong);
+  color: var(--paper);
+}
+.nav a.is-here {
+  box-shadow: inset 0 0 0 1px rgb(111 227 180 / 0.5);
+}
+.hud-chapter {
+  display: none;
+  margin: 0;
+  font: 600 0.7rem/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+  white-space: nowrap;
+}
+@media (min-width: 1240px) {
+  .hud-chapter {
+    display: block;
+  }
+}
+.motion-toggle {
+  border: 0;
+  border-radius: 999px;
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+}
+.motion-toggle:hover {
+  background: var(--glass-strong);
+}
+.scroll-progress {
+  height: 3px;
+}
+.scroll-progress span {
+  background: linear-gradient(90deg, var(--violet), var(--mint), var(--ember));
+  box-shadow: 0 0 12px rgb(111 227 180 / 0.6);
+}
+
+/* ---------- Buttons: pills with a soft glow ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0.7em 1.6em;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  font-weight: 650;
+  letter-spacing: 0.005em;
+  color: #052a1d;
+  background: linear-gradient(180deg, #93f1cb, var(--mint));
+  box-shadow: 0 10px 28px rgb(111 227 180 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.55);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s, filter 0.2s;
+}
+.btn:hover {
+  color: #052a1d;
+  background: linear-gradient(180deg, #aaf6d8, #7eecc2);
+  box-shadow: 0 14px 36px rgb(111 227 180 / 0.4), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn--quiet {
+  color: var(--paper);
+  background: var(--glass-strong);
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+}
+.btn--quiet:hover {
+  color: var(--paper);
+  background: rgb(255 255 255 / 0.15);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.28);
+}
+
+/* ---------- Shared panels and tags ---------- */
+.kind {
+  border: 0;
+  border-radius: 999px;
+  padding: 2px 12px;
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+.featured,
+.milestone {
+  border-radius: 20px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.35);
+}
+.ptabs__tab {
+  border: 0;
+  border-radius: 999px;
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+  font-family: var(--sans);
+  font-weight: 650;
+  font-size: var(--step-0);
+}
+.ptabs__tab[aria-selected="true"] {
+  background: linear-gradient(180deg, #93f1cb, var(--mint));
+  color: #052a1d;
+}
+
+/* ---------- Big type ---------- */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 14px;
+  font: 600 0.74rem/1.4 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+.big {
+  margin: 0 0 18px;
+  font-size: clamp(2.5rem, 6.4vw, 5.8rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+  color: var(--paper);
+  background: linear-gradient(180deg, #ffffff 15%, #d6cfff 60%, #9d8cff 115%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.big--sm {
+  font-size: clamp(2.1rem, 4.6vw, 4rem);
+}
+.lede {
+  max-width: 36ch;
+  font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--paper-dim);
+}
+
+/* ==========================================================================
+   Chapters. Normal sections by default; on big screens with animations on,
+   <html class="story-pinned"> turns each into a tall track with a stage that
+   sticks to the screen (see lib/story.ts).
+   ========================================================================== */
+.story {
+  overflow-x: clip;
+}
+.chapter {
+  position: relative;
+}
+.chapter__stage {
+  position: relative;
+  padding: clamp(72px, 10vw, 128px) max(20px, calc((100% - 1120px) / 2));
+}
+html.story-pinned .chapter {
+  --len: 78svh;
+  height: calc(100svh + var(--steps, 1) * var(--len));
+}
+html.story-pinned .chapter__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  padding: calc(var(--header-h, 70px) + 8px) max(clamp(20px, 4vw, 64px), calc((100% - 1120px) / 2)) 28px;
+}
+
+/* ---------- Title screen ---------- */
+.title {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+.chapter--title .chapter__stage {
+  padding: 0;
+}
+html.story-pinned .chapter--title {
+  --len: 95svh;
+}
+html.story-pinned .chapter--title .chapter__stage {
+  display: block;
+  padding: 0;
+}
+html.story-pinned .title {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+.title__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform-origin: 72.5% 57%;
+  /* Dive into the monitor: slide it to the middle of the screen while zooming in. */
+  transform: translate(calc(var(--p, 0) * -22.5%), calc(var(--p, 0) * -6.7%)) scale(calc(1 + var(--p, 0) * 1.7));
+  will-change: transform;
+}
+.ts-l {
+  transform: translateY(calc(var(--p, 0) * var(--dy, 0px)));
+}
+.title__fade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--room);
+  opacity: calc((var(--p, 0) - 0.55) * 2.4);
+  pointer-events: none;
+}
+.title__copy {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: calc(var(--header-h, 70px) + clamp(12px, 6svh, 72px));
+  width: min(94vw, 1000px);
+  text-align: center;
+  transform: translateX(-50%) translateY(calc(var(--p, 0) * -80px));
+  opacity: calc(1 - var(--p, 0) * 2.6);
+}
+.chapter--title.is-late .title__copy {
+  visibility: hidden;
+}
+.title__kicker {
+  margin: 0 auto 10px;
+  font: 600 0.78rem/1.4 var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+.title__h1 {
+  margin: 0;
+}
+.title__name {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.22em;
+  margin: 0;
+  font-size: clamp(3.6rem, 12vw, 9.5rem);
+  line-height: 0.86;
+  letter-spacing: 0;
+  background: linear-gradient(180deg, #ffffff 8%, #dcd5ff 52%, #9a88ff 105%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 44px rgb(143 124 255 / 0.5));
+}
+.title__tag {
+  margin: 14px auto 20px;
+  max-width: none;
+  font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+  font-weight: 500;
+  color: var(--paper);
+}
+.title__actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 auto;
+}
+.title__hint {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  transform: translateX(-50%);
+  font: 600 0.68rem/1 var(--mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  opacity: calc(1 - var(--p, 0) * 8);
+}
+.title__hint span {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--mint);
+  border-bottom: 2px solid var(--mint);
+  transform: rotate(45deg);
+}
+html.motion-on .title__hint span {
+  animation: hint 1.6s ease-in-out infinite;
+}
+@keyframes hint {
+  0%, 100% { transform: translateY(0) rotate(45deg); opacity: 0.5; }
+  50% { transform: translateY(6px) rotate(45deg); opacity: 1; }
+}
+html.motion-on .ts-twinkle { animation: twinkle 3.2s steps(2, end) infinite; }
+html.motion-on .ts-flame { animation: flame 0.45s steps(2, end) infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+html.motion-on .ts-fly { animation: fly 7s ease-in-out infinite; }
+@keyframes twinkle { 50% { opacity: 0.15; } }
+@keyframes flame { 50% { transform: scaleY(1.18) translateY(-0.5px); } }
+@keyframes fly {
+  0%, 100% { transform: translate(0, 0); opacity: 0.2; }
+  30% { transform: translate(6px, -8px); opacity: 1; }
+  60% { transform: translate(-4px, -14px); opacity: 0.5; }
+}
+
+/* ---------- Slides: chapter I ---------- */
+.slides {
+  position: relative;
+  display: grid;
+  gap: clamp(72px, 12vw, 160px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.slide {
+  display: grid;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .slide {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+}
+.slide__text,
+.slide__visual {
+  min-width: 0;
+}
+.slide__text p {
+  max-width: 44ch;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  color: var(--paper-dim);
+}
+.slide__text p a {
+  font-weight: 600;
+}
+html.story-pinned .slides {
+  gap: 0;
+}
+html.story-pinned .slide,
+html.story-pinned .quest-step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(44px) scale(0.985);
+  transition: opacity 0.6s var(--ease), transform 0.9s var(--ease);
+}
+html.story-pinned .slide.is-active,
+html.story-pinned .quest-step.is-active,
+html.story-pinned .chapter:not([data-step]) [data-step-i="0"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+html.story-pinned .slide.is-past,
+html.story-pinned .quest-step.is-past {
+  transform: translateY(-44px) scale(0.985);
+}
+.pips {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pips li {
+  width: 28px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.16);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.pips li.is-done { background: rgb(111 227 180 / 0.5); }
+.pips li.is-active { background: var(--mint); box-shadow: 0 0 14px var(--mint); }
+.pips--side {
+  display: none;
+}
+html.story-pinned .pips--side {
+  position: absolute;
+  top: 50%;
+  right: clamp(12px, 1.6vw, 28px);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-50%);
+}
+html.story-pinned .pips--side li {
+  width: 6px;
+  height: 28px;
+}
+
+/* Character card, desk scene and the stat sheet: glass instead of pixel borders */
+.player-card {
+  width: min(100%, 360px);
+  margin-inline: auto;
+  padding: 18px;
+  border: 1px solid var(--glass-line);
+  border-radius: 26px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.03));
+  box-shadow: 0 40px 90px rgb(0 0 0 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.1);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.player-card__avatar {
+  border-radius: 16px;
+  image-rendering: pixelated;
+}
+.scene__svg {
+  border: 1px solid var(--glass-line);
+  border-radius: 22px;
+  box-shadow: 0 40px 90px rgb(0 0 0 / 0.5), 0 0 80px rgb(143 124 255 / 0.18);
+}
+
+/* ---------- Chapters II and III: the quests ---------- */
+.quests-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: clamp(20px, 3.4svh, 36px);
+}
+.quests-hud .big {
+  margin-bottom: 8px;
+}
+.quests-hud .lede {
+  max-width: 52ch;
+  margin: 0;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+.quests-hud__meter {
+  display: none;
+}
+html.story-pinned .quests-hud__meter {
+  display: block;
+  flex: none;
+}
+.counter {
+  margin: 0 0 10px;
+  text-align: right;
+  font: 600 0.74rem/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+}
+.counter b {
+  display: none;
+  font: 400 2.2rem/0.9 var(--pixel);
+  letter-spacing: 0;
+  color: var(--mint);
+  vertical-align: -3px;
+}
+.counter b.is-active,
+.chapter:not([data-step]) .counter b:first-child {
+  display: inline;
+}
+.counter__of {
+  color: var(--muted);
+}
+.quests-hud .pips {
+  justify-content: flex-end;
+}
+.quest-steps {
+  display: grid;
+  gap: clamp(28px, 5vw, 64px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.quest-step {
+  display: grid;
+  gap: clamp(20px, 3.4vw, 56px);
+  align-items: center;
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .quest-step {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+}
+html.story-pinned .quest-steps {
+  gap: 0;
+}
+html.story-pinned .quest-step {
+  transform: translateX(70px) scale(0.985);
+}
+html.story-pinned .quest-step.is-past {
+  transform: translateX(-70px) scale(0.985);
+}
+html.story-pinned .quest-step.is-active,
+html.story-pinned .chapter:not([data-step]) .quest-step:first-child {
+  transform: none;
+}
+.quest-step__text,
+.quest-step__visual {
+  min-width: 0;
+}
+.chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font: 600 0.7rem/1.3 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.chip--side { background: rgb(111 227 180 / 0.14); color: var(--mint); }
+.chip--main { background: rgb(255 154 82 / 0.16); color: var(--ember); }
+.quest-step__when {
+  margin-left: 12px;
+  font: 400 0.8rem/1 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--muted);
+}
+.quest-step__title {
+  margin: 4px 0 10px;
+  font-size: clamp(2.1rem, 4.4vw, 4rem);
+  line-height: 0.95;
+}
+.quest-step__title a {
+  color: var(--paper);
+  text-decoration: none;
+}
+.quest-step__title a:hover {
+  color: var(--mint);
+}
+.quest-step__tag {
+  margin: 0 0 8px;
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 500;
+  color: var(--paper);
+}
+.quest-step__problem {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.quest-step__proof {
+  margin: 0 0 16px;
+  padding-left: 14px;
+  border-left: 3px solid var(--gold);
+  font-size: 0.95rem;
+  color: var(--paper-dim);
+}
+.quest-step__proof span {
+  display: block;
+  font: 600 0.66rem/1.6 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.stack li {
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--glass);
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+  font-size: 0.82rem;
+  color: var(--paper-dim);
+}
+.quest-step__visual {
+  display: grid;
+  justify-items: center;
+}
+/* The product tile, scaled to fill its column (and never taller than the screen allows). */
+.quest-step__visual .pt {
+  --s: 0.8;
+}
+@supports (transform: scale(tan(atan2(100px, 10px)))) {
+  .quest-step__visual .pt {
+    width: min(100%, calc((100svh - var(--header-h, 70px) - 250px) * 1.6));
+    height: auto;
+    aspect-ratio: 560 / 350;
+    container-type: inline-size;
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12), 0 40px 90px rgb(0 0 0 / 0.55), 0 0 90px rgb(143 124 255 / 0.2);
+  }
+  .quest-step__visual .pt__canvas {
+    transform: scale(tan(atan2(100cqw, 560px)));
+  }
+}
+html.story-pinned .quest-step.is-active .pt {
+  transform: translateY(calc((0.5 - var(--sp, 0.5)) * 26px));
+}
+.quests-more {
+  margin: clamp(20px, 3vw, 36px) 0 0;
+  text-align: center;
+}
+html.story-pinned .quests-more {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  margin: 0;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+}
+@media (max-width: 899px) {
+  .quest-step {
+    padding: 20px;
+    border-radius: 24px;
+    background: var(--glass);
+    box-shadow: inset 0 0 0 1px var(--glass-line);
+  }
+  .quest-step__visual .pt {
+    --s: 0.55;
+  }
+}
+
+/* ---------- Acts: skill tree, loot, save point ---------- */
+.act {
+  padding-block: clamp(72px, 11vw, 150px);
+}
+.act .lede {
+  margin-bottom: 0;
+}
+.act__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+.act__head > div:first-child {
+  flex: 1 1 460px;
+  min-width: 0;
+}
+.chest,
+.fire {
+  margin-left: auto;
+}
+.act__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0 0;
+}
+.chest,
+.fire {
+  position: relative;
+  flex: none;
+  width: clamp(96px, 14vw, 168px);
+  aspect-ratio: 18 / 15;
+}
+.fire {
+  aspect-ratio: 1;
+}
+.chest svg,
+.fire svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+.chest__closed { opacity: 0; }
+.reveal-armed:not(.is-in) .chest__closed { opacity: 1; }
+.reveal-armed:not(.is-in) .chest__open { opacity: 0; }
+.chest::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(255 207 92 / 0.4), transparent);
+  opacity: 1;
+}
+.reveal-armed:not(.is-in) .chest::after { opacity: 0; }
+html.motion-on .chest__open,
+html.motion-on .chest::after { transition: opacity 0.6s 0.25s; }
+.fire::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(255 154 82 / 0.38), transparent);
+}
+.fire__b { opacity: 0; }
+html.motion-on .fire__a { animation: fire-a 0.7s steps(1, end) infinite; }
+html.motion-on .fire__b { animation: fire-b 0.7s steps(1, end) infinite; }
+html.motion-on .fire::after { animation: fire-glow 1.4s ease-in-out infinite; }
+@keyframes fire-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes fire-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes fire-glow { 50% { opacity: 0.65; transform: scale(1.06); } }
+
+
+/* Save point terminal */
+.terminal {
+  border: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  font-family: var(--mono);
+  box-shadow: inset 0 0 0 1px var(--glass-line), 0 40px 100px rgb(0 0 0 / 0.5);
+}
+.terminal__bar {
+  background: rgb(255 255 255 / 0.07);
+}
+.terminal__body {
+  background: rgb(6 4 18 / 0.85);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--glass-line);
+  background: rgb(6 4 18 / 0.7);
+}
+
+/* ---------- Small screens and the plain mode ---------- */
+@media (max-width: 899px) {
+  .title {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  /* On phones the copy and the facts stack in normal flow, above the scenery. */
+  .title__copy {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    padding: calc(var(--header-h, 70px) + 18px) 20px 0;
+    transform: none;
+  }
+  .nav {
+    gap: 0 2px;
+  }
+  .nav a {
+    padding: 4px 8px;
+    font-size: 0.95rem;
+  }
+  .title__scene {
+    transform: none;
+  }
+  .ts-l {
+    transform: none;
+  }
+  .title__fade,
+  .title__hint {
+    opacity: 1;
+  }
+  .title__fade {
+    opacity: 0;
+  }
+  }
+html:not(.story-pinned) .title__copy {
+  opacity: 1;
+}
+@media (min-width: 900px) {
+  html:not(.story-pinned) .title__copy {
+    transform: none;
+  }
+}
+html:not(.story-pinned) .title__scene,
+html:not(.story-pinned) .ts-l {
+  transform: none;
+}
+html:not(.story-pinned) .title__fade {
+  opacity: 0;
+}
+
+/* ---------- Pinned chapters on shorter screens (laptops): tighter type and spacing ---------- */
+@media (min-width: 900px) and (max-height: 840px) {
+  html.story-pinned .chapter__stage {
+    padding-bottom: 16px;
+  }
+  html.story-pinned .big {
+    font-size: clamp(2.2rem, 4.6vw, 4.2rem);
+    margin-bottom: 10px;
+  }
+  html.story-pinned .big--sm {
+    font-size: clamp(1.9rem, 3.4vw, 3rem);
+  }
+  html.story-pinned .lede {
+    font-size: 1.05rem;
+  }
+  html.story-pinned .slide__text p {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  html.story-pinned .quests-hud {
+    margin-bottom: 8px;
+  }
+  html.story-pinned .quests-hud .lede {
+    display: none;
+  }
+  html.story-pinned .quest-step__title {
+    margin: 2px 0 6px;
+    font-size: clamp(1.9rem, 3.4vw, 3rem);
+  }
+  html.story-pinned .quest-step__tag {
+    margin-bottom: 6px;
+    font-size: 1.05rem;
+  }
+  html.story-pinned .quest-step__problem {
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+  }
+  html.story-pinned .quest-step__proof {
+    margin-bottom: 10px;
+    font-size: 0.88rem;
+  }
+  html.story-pinned .stack {
+    margin-bottom: 14px;
+  }
+  html.story-pinned .quest-step__visual .pt {
+    width: min(100%, calc((100svh - var(--header-h, 70px) - 190px) * 1.6));
+  }
+  html.story-pinned .player-card {
+    width: min(100%, 300px);
+    padding: 14px;
+  }
+}
+@media (min-width: 900px) and (max-height: 720px) {
+  html.story-pinned .player-card__avatar {
+    height: 24svh;
+  }
+  html.story-pinned .quest-step__problem {
+    display: none;
+  }
+  html.story-pinned .slide__text .eyebrow {
+    margin-bottom: 8px;
+  }
+  html.story-pinned .quest-step__visual .pt {
+    width: min(100%, calc((100svh - var(--header-h, 70px) - 150px) * 1.6));
+  }
+}
+
+/* ==========================================================================
+   Title stats, game-style buttons, the knight's eyes, and a container-free skill tree
+   ========================================================================== */
+
+/* ---------- The three headline numbers ---------- */
+.title__stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 auto 26px;
+  padding: 0;
+  list-style: none;
+}
+.hstat {
+  --c: var(--mint);
+  position: relative;
+  display: grid;
+  gap: 2px;
+  min-width: 168px;
+  padding: 14px 22px 12px;
+  text-align: center;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.03));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14), 0 18px 50px rgb(0 0 0 / 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.hstat::before {
+  content: "";
+  position: absolute;
+  inset: 0 22px auto;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--c);
+  box-shadow: 0 0 14px var(--c);
+}
+.hstat--mint { --c: var(--mint); }
+.hstat--ember { --c: var(--ember); }
+.hstat--violet { --c: #a99aff; }
+.hstat b {
+  font: 400 clamp(2.8rem, 5vw, 4rem) / 0.95 var(--pixel);
+  letter-spacing: 0.01em;
+  color: var(--c);
+  text-shadow: 0 0 28px var(--c);
+}
+.hstat span {
+  font: 600 0.7rem/1.3 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+}
+
+/* ---------- Game-style buttons: chunky, pixel lettering, soft glow ---------- */
+.hero-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  height: 58px;
+  padding: 0 30px;
+  border-radius: 16px;
+  overflow: hidden;
+  font-family: var(--pixel);
+  font-size: 1.7rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.18s var(--ease), box-shadow 0.18s, filter 0.18s;
+}
+.hero-btn:active {
+  transform: translateY(3px);
+}
+.hero-btn--primary {
+  color: #04241a;
+  background: linear-gradient(180deg, #b4f9de 0%, #62e3b1 48%, #36c997 100%);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.6), 0 5px 0 #1b8761, 0 16px 44px rgb(111 227 180 / 0.45);
+}
+.hero-btn--primary:hover {
+  color: #04241a;
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.7), 0 7px 0 #1b8761, 0 22px 56px rgb(111 227 180 / 0.6);
+}
+.hero-btn--primary:active {
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.5), 0 2px 0 #1b8761, 0 8px 24px rgb(111 227 180 / 0.4);
+}
+.hero-btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -40%;
+  width: 30%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  transform: skewX(-20deg);
+}
+html.motion-on .hero-btn--primary::after {
+  animation: shine 3.6s ease-in-out infinite;
+}
+@keyframes shine {
+  0%, 55% { left: -40%; }
+  100% { left: 130%; }
+}
+.hero-btn--ghost {
+  color: var(--paper);
+  background: rgb(255 255 255 / 0.07);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.3), 0 5px 0 rgb(255 255 255 / 0.08);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.hero-btn--ghost:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  background: rgb(255 255 255 / 0.13);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.55), 0 7px 0 rgb(255 255 255 / 0.1), 0 16px 40px rgb(143 124 255 / 0.3);
+}
+/* Pixel play triangle (blinks) and pixel document icon */
+.hero-btn__play {
+  width: 16px;
+  height: 20px;
+  background: currentColor;
+  clip-path: polygon(0 0, 50% 0, 50% 20%, 75% 20%, 75% 40%, 100% 40%, 100% 60%, 75% 60%, 75% 80%, 50% 80%, 50% 100%, 0 100%);
+}
+html.motion-on .hero-btn--primary .hero-btn__play {
+  animation: blink 1.1s steps(2, end) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0.25; }
+}
+.hero-btn__doc {
+  width: 16px;
+  height: 20px;
+  background: currentColor;
+  clip-path: polygon(0 0, 65% 0, 65% 20%, 100% 20%, 100% 100%, 0 100%);
+  opacity: 0.9;
+}
+.title__actions {
+  gap: 16px;
+}
+@media (max-width: 560px) {
+  .hero-btn {
+    flex: 1 1 100%;
+    font-size: 1.5rem;
+  }
+  .hstat {
+    min-width: 0;
+    flex: 1 1 28%;
+    padding: 12px 10px 10px;
+  }
+  .hstat span {
+    letter-spacing: 0.08em;
+    font-size: 0.62rem;
+  }
+}
+@media (min-width: 900px) and (max-height: 840px) {
+  .title__name {
+    font-size: clamp(3.2rem, 10vw, 7.6rem);
+  }
+  .title__tag {
+    margin: 8px auto 12px;
+  }
+  .title__stats {
+    margin-bottom: 16px;
+  }
+  .hstat {
+    padding: 10px 20px 8px;
+  }
+  .hstat b {
+    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  }
+  .hero-btn {
+    height: 52px;
+    font-size: 1.5rem;
+  }
+}
+
+
+
+
+/* ==========================================================================
+   Title screen v2: the workstation. Copy sits left, the desk glows right.
+   ========================================================================== */
+.title::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(8 6 28 / 0.86) 0%, rgb(8 6 28 / 0.5) 34%, transparent 60%),
+    radial-gradient(120% 90% at 70% 60%, transparent 55%, rgb(5 3 18 / 0.65) 100%);
+  /* Darken behind the text only, so the props on the desk stay bright. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0 58%, rgb(0 0 0 / 0.25) 74%, rgb(0 0 0 / 0.25));
+  mask-image: linear-gradient(to bottom, #000 0 58%, rgb(0 0 0 / 0.25) 74%, rgb(0 0 0 / 0.25));
+}
+.title__tag {
+  margin: 14px 0 6px;
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.title__roles {
+  margin: 0 0 22px;
+  font: 500 0.78rem/1.5 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (min-width: 900px) {
+  .title__copy {
+    left: max(20px, calc((100% - 1120px) / 2));
+    width: min(46vw, 640px);
+    text-align: left;
+    transform: translateY(calc(var(--p, 0) * -80px));
+  }
+  .title__kicker,
+  .title__tag {
+    margin-left: 0;
+  }
+  .title__name {
+    justify-content: flex-start;
+    font-size: clamp(3.4rem, 8vw, 7.6rem);
+    gap: 0 0.2em;
+  }
+  .title__stats,
+  .title__actions {
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+  .hstat {
+    min-width: 150px;
+  }
+}
+@media (max-width: 899px) {
+  .title__copy {
+    text-align: center;
+  }
+  .title__scene {
+    inset: auto 0 0 0;
+    height: 38%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%);
+    mask-image: linear-gradient(to bottom, transparent, #000 22%);
+  }
+  .title::after {
+    background: linear-gradient(to bottom, rgb(8 6 28 / 0.6), transparent 45%);
+  }
+  .title {
+    background: linear-gradient(#07051a, #120e2e);
+  }
+}
+/* The PC's RGB, the monitor's glow and cursor, steam from the mug */
+html.motion-on .ts-rgb { animation: rgbcycle 7s linear infinite; }
+@keyframes rgbcycle {
+  0%, 100% { fill: #ff5e7a; }
+  20% { fill: #ffcf5c; }
+  40% { fill: #6fe3b4; }
+  60% { fill: #5aa9ff; }
+  80% { fill: #8f7cff; }
+}
+html.motion-on .ts-rgbstrip { animation: hue 12s linear infinite; }
+@keyframes hue { to { filter: hue-rotate(360deg); } }
+html.motion-on .ts-glow { animation: glowpulse 4.5s ease-in-out infinite; }
+@keyframes glowpulse { 50% { opacity: 0.65; } }
+html.motion-on .ts-cursor { animation: cursor 1s steps(1, end) infinite; }
+@keyframes cursor { 50% { opacity: 0; } }
+html.motion-on .ts-cat { animation: breathe 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes breathe { 50% { transform: scale(1.01, 1.07); } }
+html.motion-on .ts-z { animation: zfloat 4.2s ease-in infinite; opacity: 0; }
+html.motion-on .ts-z2 { animation-delay: 1.4s; }
+html.motion-on .ts-z3 { animation-delay: 2.8s; }
+@keyframes zfloat { 0% { opacity: 0; transform: translate(0, 4px); } 25% { opacity: 0.9; } 100% { opacity: 0; transform: translate(4px, -9px); } }
+html.motion-on .ts-steam { animation: steam 3.2s ease-in-out infinite; }
+@keyframes steam { 50% { transform: translateY(-1.6px); opacity: 0.45; } }
+@media (min-width: 900px) and (max-height: 840px) {
+  /* On short screens the copy runs down to the desk, so the props on its left step aside. */
+  .ts-leftprops {
+    display: none;
+  }
+  /* The cat keeps its spot on the desk, shifted clear of the buttons. */
+  .ts-catwrap {
+    transform: translate(100px, 0);
+  }
+  .ts-mug {
+    display: none;
+  }
+  .title__name {
+    font-size: clamp(3rem, 6.4vw, 5.6rem);
+  }
+  .title__roles {
+    margin-bottom: 12px;
+  }
+}
+
+/* ---------- The photo on the character card ---------- */
+.player-card {
+  width: min(100%, 410px);
+}
+.player-card__avatar {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 10%;
+  image-rendering: auto;
+  border-radius: 18px;
+}
+/* In the pinned hub the photo is sized from the screen height so the whole card always fits. */
+html.story-pinned .player-card__avatar {
+  width: 100%;
+  height: min(38svh, 400px);
+  object-position: 50% 6%;
+}
+@media (min-width: 900px) and (max-height: 840px) {
+  html.story-pinned .player-card {
+    padding: 12px;
+  }
+  html.story-pinned .player-card__avatar {
+    height: 28svh;
+  }
+  html.story-pinned .player-card__stats dt,
+  html.story-pinned .player-card__stats dd {
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+  html.story-pinned .player-card__name {
+    margin: 8px 0 4px;
+  }
+}
+.player-card__stats dd {
+  line-height: 1.4;
+}
+
+/* ---------- Off-duty loadout: an inventory of the things off the clock ---------- */
+.loadout {
+  display: grid;
+  gap: 14px;
+}
+.loadout__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.slot {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 16px 10px 14px;
+  text-align: center;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.025));
+  box-shadow: inset 0 0 0 1px var(--glass-line), 0 16px 40px rgb(0 0 0 / 0.35);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s;
+}
+.slot:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 0 0 1px rgb(111 227 180 / 0.55), 0 20px 50px rgb(111 227 180 / 0.16);
+}
+.slot__art {
+  display: grid;
+  place-items: center;
+  height: clamp(54px, 9svh, 84px);
+  margin-bottom: 8px;
+}
+.slot__art svg {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.5));
+}
+.slot b {
+  font: 400 1.25rem/1.1 var(--pixel);
+  letter-spacing: 0.03em;
+  color: var(--paper);
+}
+.slot small {
+  font: 600 0.62rem/1.3 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+.status {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: none;
+  margin: 0;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: rgb(255 154 82 / 0.08);
+  box-shadow: inset 0 0 0 1px rgb(255 154 82 / 0.4);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--paper-dim);
+}
+.status b {
+  display: block;
+  font: 600 0.66rem/1.6 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+.status__dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 12px var(--ember);
+}
+html.motion-on .status__dot {
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.35; transform: scale(0.8); } }
+@media (max-width: 560px) {
+  .loadout__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) and (max-height: 840px) {
+  .slot {
+    padding: 10px 8px 9px;
+  }
+  .slot__art {
+    height: clamp(44px, 8svh, 64px);
+    margin-bottom: 4px;
+  }
+  .slot b {
+    font-size: 1.1rem;
+  }
+  .status {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ==========================================================================
+   The skill web: stars, connections, a card on demand. No boxes around skills.
+   ========================================================================== */
+.gem {
+  display: inline-block;
+  flex: none;
+  width: 11px;
+  height: 11px;
+  transform: rotate(45deg);
+  background: var(--edge-hi);
+  border: 2px solid var(--room);
+  box-shadow: 0 0 0 2px var(--edge-hi);
+}
+.gem--1 { background: var(--edge-hi); }
+.gem--2 { background: #4fa784; box-shadow: 0 0 0 2px #4fa784; }
+.gem--3 { background: var(--mint); box-shadow: 0 0 0 2px var(--mint), 0 0 10px rgb(111 227 180 / 0.45); }
+.gem--4 { background: var(--ember); box-shadow: 0 0 0 2px var(--ember), 0 0 10px rgb(255 154 82 / 0.5); }
+.gem--5 { background: var(--gold); box-shadow: 0 0 0 2px var(--gold), 0 0 14px rgb(255 207 92 / 0.7); }
+.gem--s { background: transparent; border-color: var(--gold); box-shadow: 0 0 0 2px rgb(255 207 92 / 0.5); }
+.gem--lg { width: 24px; height: 24px; border-width: 4px; }
+html.motion-on .unlock-gem { animation: gempop 0.5s var(--ease) both; }
+@keyframes gempop { from { transform: rotate(45deg) scale(0.2); } 60% { transform: rotate(45deg) scale(1.25); } }
+
+.skillweb { margin-top: 28px; }
+.gtools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.gtools__stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 62ch;
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--paper-dim);
+}
+.gtools__stat b { color: var(--mint); font-weight: 650; }
+.gtools__stat .gem { margin-top: 5px; }
+.gtools__buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.gbtn {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 999px;
+  font: 650 0.85rem/1 var(--sans);
+  color: var(--paper);
+  background: var(--glass-strong);
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s var(--ease), box-shadow 0.2s;
+}
+.gbtn:hover { background: rgb(255 255 255 / 0.15); transform: translateY(-1px); }
+.gbtn[aria-pressed="true"] {
+  color: #052a1d;
+  background: linear-gradient(180deg, #93f1cb, var(--mint));
+  box-shadow: 0 8px 24px rgb(111 227 180 / 0.3);
+}
+.gbtn--quiet { background: none; color: var(--muted); }
+.gprogress { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 16px 0 4px; }
+.gprogress__bar { width: 180px; height: 8px; overflow: hidden; border-radius: 999px; background: rgb(255 255 255 / 0.1); }
+.gprogress__bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), var(--mint)); transition: width 0.5s var(--ease); }
+.gprogress__text { font: 600 0.68rem/1.3 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.gnote { min-height: 1.7em; max-width: none; margin: 0 0 4px; font-size: 0.95rem; color: var(--mint); }
+
+.constellation {
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: 1000 / 640;
+  margin-top: 6px;
+}
+.gedges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.gspoke { stroke: rgb(255 255 255 / 0.08); stroke-width: 1; vector-effect: non-scaling-stroke; transition: opacity 0.25s; }
+.gspoke--hub { stroke: rgb(143 124 255 / 0.32); stroke-dasharray: 3 6; }
+.gedge {
+  fill: none;
+  stroke: rgb(169 154 255 / 0.24);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.25s, opacity 0.25s, stroke-width 0.25s;
+}
+.gedge.is-lit { stroke: var(--mint); stroke-width: 2.2; filter: drop-shadow(0 0 5px var(--mint)); }
+.gedge.is-path { stroke: var(--gold); stroke-width: 3; stroke-dasharray: 7 6; filter: drop-shadow(0 0 6px var(--gold)); }
+html.motion-on .gedge.is-path { animation: flow 0.8s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -13; } }
+.gedge.is-dim, .gspoke.is-dim { opacity: 0.1; }
+
+.ghub {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.ghub img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  object-position: 50% 14%;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgb(143 124 255 / 0.7), 0 0 36px rgb(143 124 255 / 0.55);
+}
+html.motion-on .ghub img { animation: ring 3.2s ease-in-out infinite; }
+@keyframes ring { 50% { box-shadow: 0 0 0 5px rgb(143 124 255 / 0.4), 0 0 52px rgb(143 124 255 / 0.7); } }
+.ghub span { font: 600 0.62rem/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-dim); }
+
+.gbranch { display: contents; }
+.gbranch__label {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 999px;
+  font: 400 clamp(0.9rem, 1.9cqw, 1.2rem) / 1 var(--pixel);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: rgb(143 124 255 / 0.16);
+  box-shadow: inset 0 0 0 1px rgb(143 124 255 / 0.5);
+  cursor: pointer;
+  transition: opacity 0.25s, background 0.2s;
+}
+.gbranch__label:hover, .gbranch__label[aria-pressed="true"] { background: rgb(143 124 255 / 0.34); }
+.gbranch.is-secret .gbranch__label { color: var(--gold); background: rgb(255 207 92 / 0.12); box-shadow: inset 0 0 0 1px rgb(255 207 92 / 0.5); }
+.gbranch.is-dim .gbranch__label, .gbranch.is-dim .gnode { opacity: 0.22; }
+
+.gnode {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 13.8cqw;
+  padding: 3px 4px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  background: none;
+  font: 500 clamp(0.68rem, 1.28cqw, 0.9rem) / 1.2 var(--sans);
+  text-align: left;
+  color: var(--paper);
+  text-shadow: 0 0 8px var(--room), 0 0 4px var(--room), 0 0 2px var(--room);
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+.gnode__text { display: grid; gap: 3px; min-width: 0; }
+.gnode__pips { display: flex; gap: 2px; }
+.gnode__pips i { width: 6px; height: 3px; border-radius: 2px; background: rgb(255 255 255 / 0.16); }
+.gnode__pips i.is-full { background: var(--mint); }
+.gnode:has(.gem--4) .gnode__pips i.is-full { background: var(--ember); }
+.gnode:has(.gem--5) .gnode__pips i.is-full { background: var(--gold); }
+.gnode:hover .gnode__name, .gnode.is-lit .gnode__name { color: var(--mint); }
+.gnode.is-selected .gnode__name { color: var(--mint); font-weight: 700; }
+.gnode.is-selected .gem { box-shadow: 0 0 0 2px var(--mint), 0 0 18px var(--mint); }
+.gnode.is-dim { opacity: 0.26; }
+.gnode.is-path .gnode__name, .gnode.is-from .gnode__name { color: var(--gold); font-weight: 700; }
+.gnode.is-path, .gnode.is-from { opacity: 1; }
+.gnode.is-secret .gnode__name { color: var(--gold); }
+.gnode.is-visited:not(.is-selected) .gem { filter: brightness(1.15); }
+
+/* Entrance: stars pop in from the hub outwards, then the lines fade up. */
+.skillweb.reveal-armed:not(.is-in) .gnode, .skillweb.reveal-armed:not(.is-in) .gbranch__label, .skillweb.reveal-armed:not(.is-in) .ghub { opacity: 0; }
+.skillweb.reveal-armed:not(.is-in) .gedge, .skillweb.reveal-armed:not(.is-in) .gspoke { opacity: 0; }
+html.motion-on .skillweb.is-in .gnode { animation: gpop 0.6s var(--ease) both; animation-delay: calc(var(--n, 0) * 28ms); }
+html.motion-on .skillweb.is-in .gedge { animation: gfade 1s ease both; animation-delay: calc(var(--n, 0) * 18ms + 250ms); }
+@keyframes gpop { from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } }
+@keyframes gfade { from { opacity: 0; } }
+
+/* A burst of sparks when you pick a skill */
+.sparks { position: absolute; left: 11px; top: 50%; pointer-events: none; }
+.sparks i { position: absolute; width: 4px; height: 4px; background: var(--gold); opacity: 0; }
+html.motion-on .sparks i { animation: spark 0.7s ease-out forwards; }
+@keyframes spark {
+  from { opacity: 1; transform: rotate(var(--a)) translateX(4px); }
+  to { opacity: 0; transform: rotate(var(--a)) translateX(30px); }
+}
+
+/* The dock above the web: hints, results and the selected skill's card. The web itself is never covered. */
+.skillweb { display: flex; flex-direction: column; }
+.gdock { order: 1; display: grid; align-content: start; gap: 8px; min-height: 212px; margin: 6px 0 4px; }
+.constellation { order: 2; }
+.gnote { min-height: 0; max-width: none; margin: 0; font-size: 0.95rem; color: var(--mint); }
+.gdock__hint { padding: 10px 2px; color: var(--muted); font-size: 0.95rem; }
+.gdock__hint p { margin: 0 0 14px; max-width: 70ch; }
+.glegend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0; padding: 0; list-style: none; font-size: 0.8rem; color: var(--paper-dim); }
+.glegend li { display: flex; align-items: center; gap: 9px; }
+/* While a skill is open, its card stays in view as you move around the web. */
+.gdock:has(.gcard) { position: sticky; top: calc(var(--header-h, 70px) + 8px); z-index: 7; }
+.gcard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(230px, 1.05fr) minmax(0, 2fr) minmax(0, 1.4fr);
+  gap: 10px 32px;
+  align-items: start;
+  max-height: 232px;
+  overflow: auto;
+  padding: 18px 54px 16px 22px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.025));
+  box-shadow: inset 0 0 0 1px var(--glass-line), 0 24px 60px rgb(0 0 0 / 0.4);
+}
+html.motion-on .gcard { animation: cardin 0.3s var(--ease) both; }
+@keyframes cardin { from { opacity: 0; transform: translateY(6px); } }
+.gcard__close { position: absolute; top: 10px; right: 12px; width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--glass); color: var(--paper-dim); font-size: 1.25rem; line-height: 1; cursor: pointer; }
+.gcard__close:hover { color: var(--paper); background: var(--glass-strong); }
+.gcard__head { display: flex; align-items: center; gap: 14px; }
+.gcard__head h3 { margin: 0 0 2px; font-size: 1.6rem; }
+.gcard__meta { margin: 0; font-size: 0.82rem; color: var(--muted); }
+.gcard__label { margin: 0 0 8px; font: 600 0.64rem/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); }
+.gcard__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; margin: 0; padding: 0; list-style: none; }
+.gcard__list a { font-size: 0.88rem; font-weight: 600; }
+.gcard__list small { display: block; font-size: 0.72rem; color: var(--muted); }
+.gcard__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.gcard__chips button { padding: 3px 11px; border: 0; border-radius: 999px; font: 500 0.76rem/1.3 var(--sans); color: var(--paper-dim); background: var(--glass); box-shadow: inset 0 0 0 1px var(--glass-line); cursor: pointer; }
+.gcard__chips button:hover { color: var(--mint); box-shadow: inset 0 0 0 1px rgb(111 227 180 / 0.6); }
+.gcard__secret { margin: 0; font-size: 0.92rem; color: var(--paper-dim); }
+
+/* Phones and small screens: a plain list per branch, with the card pinned to the bottom. */
+@media (max-width: 899px) {
+  .constellation { display: grid; gap: 26px; aspect-ratio: auto; container-type: normal; margin-top: 18px; }
+  .gedges, .ghub { display: none; }
+  .gbranch { display: block; }
+  .gbranch__label { position: static; transform: none; margin-bottom: 10px; font-size: 1.1rem; }
+  .gnode { position: static; transform: none; max-width: none; width: 100%; padding: 9px 4px; font-size: 0.98rem; }
+  .gnode__pips i { width: 9px; }
+  /* The dock moves below the list and pins to the bottom of the screen while you browse it. */
+  .gdock { order: 3; position: sticky; bottom: 12px; z-index: 6; min-height: 0; }
+  /* There's no hovering on touch, so the hint stays out of the way until something is chosen or traced. */
+  .gdock:not(:has(.gcard, .gnote)) { display: none; }
+  .gnote { padding: 10px 14px; border-radius: 14px; background: rgb(14 12 36 / 0.96); box-shadow: inset 0 0 0 1px var(--glass-line); }
+  .gcard { grid-template-columns: 1fr; max-height: 54svh; padding-right: 22px; background: rgb(14 12 36 / 0.95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .gcard__list { grid-template-columns: 1fr; }
+  .gcard__close { top: 8px; }
+}
+
+/* ==========================================================================
+   Loot: the quest log with rarity, XP, proof and a chest to open.
+   ========================================================================== */
+.questlog { margin-top: 28px; }
+.loot__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.loot__stats li {
+  display: grid;
+  gap: 2px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.025));
+  box-shadow: inset 0 0 0 1px var(--glass-line);
+}
+.loot__stats b { font: 400 clamp(1.9rem, 3.4vw, 2.8rem) / 1 var(--pixel); color: var(--gold); text-shadow: 0 0 24px rgb(255 207 92 / 0.45); }
+.loot__stats li > span { font: 600 0.66rem/1.3 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.loot__controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+.loot__right { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.loot__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / 0.05); box-shadow: inset 0 0 0 1px var(--glass-line); }
+.loot__chips button {
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font: 600 0.84rem/1 var(--sans);
+  color: var(--paper-dim);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.loot__chips button span { margin-left: 4px; font-weight: 500; color: var(--muted); }
+.loot__chips button:hover { color: var(--paper); }
+.loot__chips button[aria-pressed="true"] { color: #052a1d; background: linear-gradient(180deg, #93f1cb, var(--mint)); }
+.loot__chips button[aria-pressed="true"] span { color: #1c6b4d; }
+.chest-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 18px 7px 12px;
+  border: 0;
+  border-radius: 999px;
+  font: 650 0.86rem/1 var(--sans);
+  color: #3a2300;
+  background: linear-gradient(180deg, #ffe08a, var(--gold));
+  box-shadow: 0 8px 26px rgb(255 207 92 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s;
+}
+.chest-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgb(255 207 92 / 0.5), inset 0 1px 0 rgb(255 255 255 / 0.6); }
+.chest-btn__art { width: 26px; height: auto; image-rendering: pixelated; }
+.chest-btn[aria-disabled="true"] { cursor: progress; transform: none; }
+html.motion-on .chest-btn.is-rolling { animation: chestshake 0.32s linear infinite; }
+html.motion-on .chest-btn.is-rolling .chest-btn__art { animation: chestbob 0.4s steps(2) infinite; }
+@keyframes chestshake { 0%, 100% { rotate: 0deg; } 25% { rotate: -2.5deg; translate: -2px 0; } 75% { rotate: 2.5deg; translate: 2px 0; } }
+@keyframes chestbob { 50% { transform: translateY(-3px) scale(1.12); } }
+
+.rarity-key { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 16px 0 22px; padding: 0; list-style: none; font-size: 0.78rem; color: var(--muted); }
+.rarity-key li { display: flex; align-items: center; gap: 8px; }
+.rarity {
+  --r: var(--muted);
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font: 700 0.62rem/1.4 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--r);
+  background: color-mix(in srgb, var(--r) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r) 55%, transparent);
+}
+.rarity--common { --r: #aeb3d4; }
+.rarity--rare { --r: var(--mint); }
+.rarity--epic { --r: #b6a6ff; }
+.rarity--legendary { --r: var(--gold); }
+
+.quests { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.quest {
+  --r: #aeb3d4;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  padding: 18px 170px 18px 20px;
+  border-radius: 20px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--r) 12%, transparent), rgb(255 255 255 / 0.03) 62%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r) 45%, transparent);
+}
+.loot--common { --r: #aeb3d4; }
+.loot--rare { --r: var(--mint); }
+.loot--epic { --r: #b6a6ff; }
+.loot--legendary { --r: var(--gold); }
+.loot--legendary { box-shadow: inset 0 0 0 1px rgb(255 207 92 / 0.6), 0 0 40px rgb(255 207 92 / 0.1); }
+.quest__icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgb(0 0 0 / 0.3); }
+.quest__type { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 4px; font-size: 0.8rem; color: var(--muted); }
+.quest--main .quest__type > span:first-child { color: var(--ember); }
+.quest--side .quest__type > span:first-child { color: var(--mint); }
+.quest__xp { font: 700 0.72rem/1 var(--mono); color: var(--gold); }
+.quest h3 { margin: 0 0 4px; font-size: 1.35rem; }
+.quest__body p { margin: 0 0 6px; max-width: 70ch; font-size: 0.95rem; color: var(--paper-dim); }
+.quest__meta { font-size: 0.8rem !important; color: var(--muted) !important; }
+.quest__source { font-size: 0.78rem !important; color: var(--muted) !important; }
+.quest__stamp {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  translate: 0 -50%;
+  rotate: -8deg;
+  padding: 0 10px;
+  font: 400 1.15rem/1.4 var(--pixel);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--r);
+  border: 3px solid var(--r);
+  border-radius: 4px;
+}
+.quest__proof { margin: 6px 0 0; }
+.quest__proof summary { display: inline-flex; align-items: center; gap: 6px; font: 600 0.8rem/1.4 var(--sans); color: var(--mint); cursor: pointer; list-style: none; }
+.quest__proof summary::-webkit-details-marker { display: none; }
+.quest__proof summary::before { content: "▸"; transition: transform 0.2s; }
+.quest__proof[open] summary::before { transform: rotate(90deg); }
+.quest__proof summary span { color: var(--muted); font-weight: 500; }
+.quest__proof ul { display: grid; gap: 8px; margin: 10px 0 8px; padding: 0 0 0 18px; list-style: none; border-left: 2px solid color-mix(in srgb, var(--r) 40%, transparent); }
+.quest__proof li a { font-size: 0.88rem; font-weight: 600; }
+.quest__proof li small { display: block; font-size: 0.74rem; color: var(--muted); }
+.loot__more { margin: 20px 0 0; text-align: center; }
+
+/* The chest's drop: a spotlight card with sparkles */
+.drop {
+  position: relative;
+  margin: 0 0 18px;
+  padding: 22px 26px 20px;
+  border-radius: 24px;
+  background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--r) 22%, transparent), rgb(255 255 255 / 0.03) 60%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r) 70%, transparent), 0 0 70px color-mix(in srgb, var(--r) 22%, transparent);
+}
+html.motion-on .drop:not(.drop--reel) { animation: dropin 0.55s var(--ease) both; }
+@keyframes dropin { from { opacity: 0; transform: translateY(14px) scale(0.97); } 50% { transform: translateY(-4px) scale(1.01); } }
+/* The reel: flashes through quests while the chest rolls, then lands */
+.drop--reel { min-height: 138px; overflow: hidden; animation: none !important; }
+.drop--reel h3 { transition: none; filter: saturate(1.3); }
+.drop__bar { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--r); transform-origin: left; animation: reelbar linear forwards; box-shadow: 0 0 14px var(--r); }
+@keyframes reelbar { from { transform: scaleX(0); } }
+html.motion-on .drop--reel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.12) 50%, transparent 60%); background-size: 250% 100%; animation: reelsweep 0.6s linear infinite; pointer-events: none; }
+@keyframes reelsweep { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+.drop__tag { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 8px; font: 600 0.7rem/1 var(--mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--r); }
+.drop__tag span:last-child { color: var(--gold); }
+.drop h3 { margin: 0 0 6px; font-size: clamp(1.6rem, 3vw, 2.3rem); }
+.drop p { max-width: 70ch; color: var(--paper-dim); }
+.drop__close { position: absolute; top: 12px; right: 14px; width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--glass); color: var(--paper-dim); font-size: 1.25rem; line-height: 1; cursor: pointer; }
+.drop__close:hover { color: var(--paper); background: var(--glass-strong); }
+
+/* Entrance */
+html.motion-on .questlog.reveal-armed:not(.is-in) .quest, html.motion-on .questlog.reveal-armed:not(.is-in) .loot__stats li { opacity: 0; transform: translateY(14px); }
+html.motion-on .questlog.reveal-armed.is-in .quest, html.motion-on .questlog.reveal-armed.is-in .loot__stats li {
+  animation: lootin 0.55s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes lootin { from { opacity: 0; transform: translateY(14px); } }
+html.motion-on .quest__stamp { animation: stamp 0.4s var(--ease) both; animation-delay: calc(var(--i, 0) * 70ms + 300ms); }
+@keyframes stamp { from { opacity: 0; scale: 1.7; } }
+
+@media (max-width: 899px) {
+  .loot__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quest { padding: 18px 18px 64px; }
+  .quest__stamp { top: auto; bottom: 16px; translate: none; }
+}
+@media (max-width: 560px) {
+  .quest { grid-template-columns: 1fr; }
+  .quest__icon { width: 40px; height: 40px; }
+}
+
+/* Shortest laptops: the portrait gives up a little height so the whole card fits. */
+@media (min-width: 900px) and (max-height: 720px) {
+  html.story-pinned .player-card__avatar {
+    height: 23svh;
+  }
+}

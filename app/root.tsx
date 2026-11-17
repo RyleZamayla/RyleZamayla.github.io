@@ -8,25 +8,30 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 
+import "@fontsource-variable/inter/wght.css";
 import "@fontsource/jersey-10/latin-400.css";
 import "@fontsource/jetbrains-mono/latin-400.css";
 import "@fontsource/jetbrains-mono/latin-700.css";
 import "./styles/global.css";
+import "./styles/story.css";
 
 // Preloading the two main font files means headings and body text appear in
 // their real fonts straight away, instead of flashing a wider fallback first
 // (most noticeable on phones over mobile data, especially in Safari).
 import jerseyWoff2 from "@fontsource/jersey-10/files/jersey-10-latin-400-normal.woff2?url";
 import monoWoff2 from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url";
+import interWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 
 import { SiteHeader } from "./components/SiteHeader";
 import { SiteFooter } from "./components/SiteFooter";
 import { CheatCode } from "./components/CheatCode";
 import { ScrollProgress } from "./components/Reveal";
 import { motionBootScript } from "./lib/motion.ts";
+import { storyBootScript } from "./lib/story.ts";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preload", href: jerseyWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preload", href: interWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preload", href: monoWoff2, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
 ];
 
@@ -37,8 +42,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         {/* Decide on animations before first paint so nothing flickers. */}
         <script dangerouslySetInnerHTML={{ __html: motionBootScript }} />
+        <script dangerouslySetInnerHTML={{ __html: storyBootScript }} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#1e1b33" />
+        <meta name="theme-color" content="#0c0a1d" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <Meta />
         <Links />
