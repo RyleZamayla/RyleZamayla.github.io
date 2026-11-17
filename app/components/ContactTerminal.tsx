@@ -66,6 +66,12 @@ export function ContactTerminal() {
             <span className="terminal__note">life outside the code</span>
           </li>
           <li {...line(7)}>
+            <a href={profile.resume.href} download>
+              resume.pdf
+            </a>
+            <span className="terminal__note">one-page resume</span>
+          </li>
+          <li {...line(8)}>
             <button type="button" className="terminal__btn" onClick={copyEmail}>
               copy-email
             </button>

@@ -13,6 +13,14 @@ export const achievements: Achievement[] = [
     ]
   },
   {
+    "id": "freelance",
+    "quest": "main",
+    "title": "5+ years as a freelance developer",
+    "detail": "Web and mobile software built for clients on a project basis.",
+    "source": "My own account",
+    "evidence": []
+  },
+  {
     "id": "isbogi",
     "quest": "side",
     "title": "Built a research pilot with its own control panel",

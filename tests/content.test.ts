@@ -84,6 +84,11 @@ test("every project has a product tile whose devices exist", () => {
   for (const key of Object.keys(thumbs)) assert.ok(projects.some((p) => p.slug === key), `tile for unknown project ${key}`);
 });
 
+test("the resume is published and linked from the profile", () => {
+  assert.match(profile.resume.href, /^\/[\w.-]+\.pdf$/);
+  assert.ok(existsSync(`public${profile.resume.href}`), "resume PDF missing from public/");
+});
+
 test("every screenshot a snapshot or tile points at exists", () => {
   for (const shots of Object.values(snapshots))
     for (const s of shots) if (s.image) assert.ok(existsSync(`public${s.image.src}`), `${s.id}: ${s.image.src} missing`);

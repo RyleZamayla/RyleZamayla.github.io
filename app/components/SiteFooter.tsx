@@ -84,6 +84,11 @@ export function SiteFooter() {
               <Link to="/#contact">Email me</Link>
             </li>
             <li>
+              <a href={profile.resume.href} download>
+                {profile.resume.label}
+              </a>
+            </li>
+            <li>
               <a href={`${profile.links.github}/RyleZamayla.github.io`}>Source for this site</a>
             </li>
           </ul>

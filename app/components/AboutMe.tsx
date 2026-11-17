@@ -43,6 +43,11 @@ export function AboutMe() {
           the company&rsquo;s operations and making routine work run noticeably smoother.
         </p>
         <p>
+          I&rsquo;ve been freelancing for 5+ years. Alongside client work I build the tools I wish existed:{" "}
+          <Link to="/projects/wais">WAIS</Link>, a money tracker that keeps everything on my own phone, and{" "}
+          <Link to="/projects/isbogi">ISBOGI</Link>, a live van-arrival pilot I built to test with real commuters.
+        </p>
+        <p>
           Away from the keyboard, I&rsquo;m a self-taught motorcycle mechanic. Electrics are my strong suit; engine
           rebuilds, not yet. I also play badminton and pickleball competitively, still going after tearing my ACL and
           meniscus.

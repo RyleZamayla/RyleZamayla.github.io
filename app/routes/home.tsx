@@ -13,7 +13,7 @@ import { pageMeta } from "../lib/meta.ts";
 export function meta() {
   return pageMeta({
     title: `${profile.name}: developer portfolio`,
-    description: `${profile.tagline}. Case studies of Laravel, Flutter and integration work, each backed by its commit history.`,
+    description: `${profile.tagline}. Freelance for 5+ years. Case studies of Laravel, Flutter, Node and integration work, each backed by its commit or build history.`,
     path: "/",
   });
 }
@@ -35,6 +35,9 @@ export default function Home() {
               <b>{count("professional")}</b> systems at work
             </li>
             <li>
+              <b>{profile.freelanceYears} years</b> freelancing
+            </li>
+            <li>
               <b>Days → hours</b> on my own timesheets
             </li>
           </ul>
@@ -45,6 +48,9 @@ export default function Home() {
             <Link viewTransition className="btn btn--quiet" to="/#contact">
               Contact me
             </Link>
+            <a className="btn btn--quiet" href={profile.resume.href} download>
+              Resume
+            </a>
           </p>
         </div>
         <HubScene />
