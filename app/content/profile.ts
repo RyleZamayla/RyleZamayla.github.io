@@ -16,15 +16,20 @@ export const profile = {
   freelanceYears: "5+",
   /** One-page resume, served from public/. */
   resume: { href: "/Bracho_Joshua_Ryle_Resume.pdf", label: "Resume (PDF)" },
-  avatar: { src: "/avatar.png", width: 64, height: 71 },
-  /** The character card next to "About me". Everything here is in Ryle's own words. */
+  avatar: {
+    src: "/profile.webp",
+    width: 640,
+    height: 800,
+    alt: "Portrait of Joshua Ryle Zamayla Bracho (AI-generated)",
+  },
+  /** The character card in the hub. Everything here is in Ryle's own words. */
   character: [
     { label: "Class", value: "Systems Integrator" },
     { label: "Base", value: "Cagayan de Oro" },
     { label: "Freelance", value: "5+ years" },
-    { label: "Side skill", value: "Motorcycle electrics" },
-    { label: "Sports", value: "Badminton, pickleball" },
-    { label: "Status", value: "Playing through a torn ACL" },
+    { label: "Side skill", value: "Motorcycle teardown and engine builds + PC setups & configurations" },
+    { label: "Sports", value: "Badminton, pickleball, table tennis, chess" },
+    { label: "Status", value: "Defying the odds of my torn ACL and meniscus, accompanied by mild scoliosis" },
   ],
   // Stored in two parts and joined only when someone presses "Copy email",
   // so the address never appears in the page's HTML for scrapers to collect.
