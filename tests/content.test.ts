@@ -5,7 +5,7 @@ import { skills, skillGroups } from "../app/content/skills.ts";
 import { achievements } from "../app/content/achievements.ts";
 import { profile } from "../app/content/profile.ts";
 import { existsSync } from "node:fs";
-import { snapshots } from "../app/content/snapshots.ts";
+import { snapshots, thumbs } from "../app/content/snapshots.ts";
 
 const milestoneIds = new Set<string>();
 for (const { milestone } of allMilestones()) milestoneIds.add(milestone.id);
@@ -53,7 +53,7 @@ test("headline figures are in plain language, never commit counts", () => {
 test("no private names leak into public content", () => {
   // Internal repository, product and client names that must never be published.
   const banned = /taskusgirls|flixio|floorline|procuremate|engagis|luxottica|whistleblow|support-engagis/i;
-  const text = JSON.stringify({ projects, skills, achievements, profile, snapshots });
+  const text = JSON.stringify({ projects, skills, achievements, profile, snapshots, thumbs });
   const hit = text.match(banned);
   assert.equal(hit, null, `found "${hit?.[0]}" in content`);
 });
@@ -68,6 +68,20 @@ test("every project has illustrated snapshots, and none are orphaned", () => {
   for (const key of Object.keys(snapshots)) assert.ok(slugs.has(key), `snapshots for unknown project ${key}`);
   const ids = Object.values(snapshots).flat().map((s) => s.id);
   assert.equal(new Set(ids).size, ids.length, "snapshot ids must be unique");
+});
+
+test("every project has a product tile whose devices exist", () => {
+  for (const p of projects) {
+    const t = thumbs[p.slug];
+    assert.ok(t, `${p.slug} has no product tile`);
+    const ids = new Set((snapshots[p.slug] ?? []).map((s) => s.id));
+    assert.ok(ids.has(t.main), `${p.slug} tile main ${t.main} missing`);
+    if (t.second) assert.ok(ids.has(t.second), `${p.slug} tile second ${t.second} missing`);
+    if (t.layout !== "window") assert.ok(t.second, `${p.slug} layout ${t.layout} needs a second device`);
+    assert.match(t.accent, /^#[0-9a-f]{6}$/i);
+    assert.match(t.accent2, /^#[0-9a-f]{6}$/i);
+  }
+  for (const key of Object.keys(thumbs)) assert.ok(projects.some((p) => p.slug === key), `tile for unknown project ${key}`);
 });
 
 test("every screenshot a snapshot or tile points at exists", () => {

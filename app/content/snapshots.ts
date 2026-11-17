@@ -666,3 +666,44 @@ export function isScreenshot(s: Snapshot): boolean {
 export function getSnapshots(slug: string): Snapshot[] {
   return snapshots[slug] ?? [];
 }
+
+/*
+ * Product tiles for project lists: a brand lockup beside one or two devices
+ * showing the project's own snapshots. Headlines describe what the project
+ * does, in plain words, and never promise more than the case study shows.
+ */
+export interface ThumbSpec {
+  /** Short wordmark shown on the tile. Company projects use generic names. */
+  name: string;
+  /** One or two characters for the app-icon mark. */
+  mark: string;
+  headline: string;
+  platform: string;
+  accent: string;
+  accent2: string;
+  /** window: one large window. phone: two phones. duo: window plus a phone in front. stack: two windows. */
+  layout: "window" | "phone" | "duo" | "stack";
+  /** Snapshot id of the main device. */
+  main: string;
+  /** Snapshot id of the second device, if the layout has one. */
+  second?: string;
+  /** Draw browser chrome around landscape screenshots that have none of their own. */
+  chrome?: boolean;
+}
+
+export const thumbs: Record<string, ThumbSpec> = {
+  "time-tracker": { name: "Time Tracker", mark: "TT", headline: "Commits to timesheets.", platform: "Local web app", accent: "#6fd3a6", accent2: "#2f8f78", layout: "window", main: "tt-real-unsynced", chrome: true },
+  sweltrack: { name: "SwelTrack", mark: "ST", headline: "Payroll for Philippine rules.", platform: "Web app", accent: "#7aa8ff", accent2: "#3a56c8", layout: "window", main: "sw-real-payslip", chrome: true },
+  taskforge: { name: "TaskForge", mark: "TF", headline: "Scheduled tasks, from JSON.", platform: "Windows", accent: "#b39cff", accent2: "#5b45c4", layout: "stack", main: "tf-real-gui", second: "tf-real-terminal" },
+  wais: { name: "WAIS", mark: "W", headline: "Money, kept on your phone.", platform: "iPhone and Android", accent: "#5cc4b8", accent2: "#1f7f86", layout: "phone", main: "ws-real-journal", second: "ws-real-insights" },
+  isbogi: { name: "ISBOGI", mark: "IS", headline: "Live van arrivals and seats.", platform: "Mobile web", accent: "#f5c518", accent2: "#1e4fb0", layout: "duo", main: "is-real-panel", second: "is-real-board", chrome: true },
+  "field-operations-platform": { name: "Field Ops", mark: "FO", headline: "Support, bookings and KPIs.", platform: "Web platform", accent: "#ff9e5e", accent2: "#c2562a", layout: "window", main: "fo-dashboard" },
+  "field-technician-app": { name: "Technician", mark: "FT", headline: "Works with no signal.", platform: "Mobile app", accent: "#6fd3a6", accent2: "#2a7f9a", layout: "phone", main: "fa-job", second: "fa-sync" },
+  "client-service-portal": { name: "Client Portal", mark: "CP", headline: "Track tickets, get sign-offs.", platform: "Web portal", accent: "#ff8fb1", accent2: "#a83c78", layout: "window", main: "cp-tickets" },
+  "floor-planning-board": { name: "Floor Plan", mark: "FP", headline: "Plan the floor together.", platform: "Web app", accent: "#ffcf5c", accent2: "#b0721e", layout: "window", main: "fb-board" },
+  "procurement-workflow": { name: "Procure", mark: "PR", headline: "Quotes and approvals, together.", platform: "Web app", accent: "#7ad7f0", accent2: "#2c6fb0", layout: "window", main: "pw-compare" },
+};
+
+export function getThumb(slug: string): ThumbSpec | undefined {
+  return thumbs[slug];
+}

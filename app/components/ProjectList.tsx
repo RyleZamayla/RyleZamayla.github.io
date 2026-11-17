@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import type { Project } from "../content/types.ts";
 import { KindTag } from "./KindTag";
 import { CountUp } from "./Reveal";
-import { SnapshotThumb } from "./Snapshots";
+import { ProductThumb } from "./ProductThumb";
 import { useReveal } from "../hooks/useReveal.ts";
 
 /** The featured project gets a large panel; the rest read as a level-select list. */
@@ -26,7 +26,7 @@ export function FeaturedProject({ project }: { project: Project }) {
         </p>
       </div>
       <div className="featured__side">
-        <SnapshotThumb slug={project.slug} />
+        <ProductThumb project={project} />
         {stat && (
           <div className="featured__stat">
             <p className="featured__value">
@@ -62,7 +62,7 @@ export function ProjectList({ projects }: { projects: Project[] }) {
               <span>{p.stack.join(", ")}</span>
             </p>
           </div>
-          <SnapshotThumb slug={p.slug} />
+          <ProductThumb project={p} />
         </li>
       ))}
     </ul>
