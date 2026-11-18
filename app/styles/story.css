@@ -1334,7 +1334,6 @@ html.motion-on .status__dot {
 .gem--3 { background: var(--mint); box-shadow: 0 0 0 2px var(--mint), 0 0 10px rgb(111 227 180 / 0.45); }
 .gem--4 { background: var(--ember); box-shadow: 0 0 0 2px var(--ember), 0 0 10px rgb(255 154 82 / 0.5); }
 .gem--5 { background: var(--gold); box-shadow: 0 0 0 2px var(--gold), 0 0 14px rgb(255 207 92 / 0.7); }
-.gem--s { background: transparent; border-color: var(--gold); box-shadow: 0 0 0 2px rgb(255 207 92 / 0.5); }
 .gem--lg { width: 24px; height: 24px; border-width: 4px; }
 html.motion-on .unlock-gem { animation: gempop 0.5s var(--ease) both; }
 @keyframes gempop { from { transform: rotate(45deg) scale(0.2); } 60% { transform: rotate(45deg) scale(1.25); } }
@@ -1377,10 +1376,6 @@ html.motion-on .unlock-gem { animation: gempop 0.5s var(--ease) both; }
   box-shadow: 0 8px 24px rgb(111 227 180 / 0.3);
 }
 .gbtn--quiet { background: none; color: var(--muted); }
-.gprogress { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 16px 0 4px; }
-.gprogress__bar { width: 180px; height: 8px; overflow: hidden; border-radius: 999px; background: rgb(255 255 255 / 0.1); }
-.gprogress__bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), var(--mint)); transition: width 0.5s var(--ease); }
-.gprogress__text { font: 600 0.68rem/1.3 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .gnote { min-height: 1.7em; max-width: none; margin: 0 0 4px; font-size: 0.95rem; color: var(--mint); }
 
 .constellation {
@@ -1451,7 +1446,6 @@ html.motion-on .ghub img { animation: ring 3.2s ease-in-out infinite; }
   transition: opacity 0.25s, background 0.2s;
 }
 .gbranch__label:hover, .gbranch__label[aria-pressed="true"] { background: rgb(143 124 255 / 0.34); }
-.gbranch.is-secret .gbranch__label { color: var(--gold); background: rgb(255 207 92 / 0.12); box-shadow: inset 0 0 0 1px rgb(255 207 92 / 0.5); }
 .gbranch.is-dim .gbranch__label, .gbranch.is-dim .gnode { opacity: 0.22; }
 
 .gnode {
@@ -1486,7 +1480,6 @@ html.motion-on .ghub img { animation: ring 3.2s ease-in-out infinite; }
 .gnode.is-dim { opacity: 0.26; }
 .gnode.is-path .gnode__name, .gnode.is-from .gnode__name { color: var(--gold); font-weight: 700; }
 .gnode.is-path, .gnode.is-from { opacity: 1; }
-.gnode.is-secret .gnode__name { color: var(--gold); }
 .gnode.is-visited:not(.is-selected) .gem { filter: brightness(1.15); }
 
 /* Entrance: stars pop in from the hub outwards, then the lines fade up. */
@@ -1523,8 +1516,6 @@ html.motion-on .sparks i { animation: spark 0.7s ease-out forwards; }
   grid-template-columns: minmax(230px, 1.05fr) minmax(0, 2fr) minmax(0, 1.4fr);
   gap: 10px 32px;
   align-items: start;
-  max-height: 232px;
-  overflow: auto;
   padding: 18px 54px 16px 22px;
   border-radius: 22px;
   background: linear-gradient(160deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.025));
@@ -1544,7 +1535,6 @@ html.motion-on .gcard { animation: cardin 0.3s var(--ease) both; }
 .gcard__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .gcard__chips button { padding: 3px 11px; border: 0; border-radius: 999px; font: 500 0.76rem/1.3 var(--sans); color: var(--paper-dim); background: var(--glass); box-shadow: inset 0 0 0 1px var(--glass-line); cursor: pointer; }
 .gcard__chips button:hover { color: var(--mint); box-shadow: inset 0 0 0 1px rgb(111 227 180 / 0.6); }
-.gcard__secret { margin: 0; font-size: 0.92rem; color: var(--paper-dim); }
 
 /* Phones and small screens: a plain list per branch, with the card pinned to the bottom. */
 @media (max-width: 899px) {
@@ -1559,7 +1549,7 @@ html.motion-on .gcard { animation: cardin 0.3s var(--ease) both; }
   /* There's no hovering on touch, so the hint stays out of the way until something is chosen or traced. */
   .gdock:not(:has(.gcard, .gnote)) { display: none; }
   .gnote { padding: 10px 14px; border-radius: 14px; background: rgb(14 12 36 / 0.96); box-shadow: inset 0 0 0 1px var(--glass-line); }
-  .gcard { grid-template-columns: 1fr; max-height: 54svh; padding-right: 22px; background: rgb(14 12 36 / 0.95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .gcard { grid-template-columns: 1fr; max-height: 54svh; overflow: auto; padding-right: 22px; background: rgb(14 12 36 / 0.95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
   .gcard__list { grid-template-columns: 1fr; }
   .gcard__close { top: 8px; }
 }
@@ -1693,7 +1683,7 @@ html.motion-on .chest-btn.is-rolling .chest-btn__art { animation: chestbob 0.4s 
 .quest__proof ul { display: grid; gap: 8px; margin: 10px 0 8px; padding: 0 0 0 18px; list-style: none; border-left: 2px solid color-mix(in srgb, var(--r) 40%, transparent); }
 .quest__proof li a { font-size: 0.88rem; font-weight: 600; }
 .quest__proof li small { display: block; font-size: 0.74rem; color: var(--muted); }
-.loot__more { margin: 20px 0 0; text-align: center; }
+.loot__more { display: flex; justify-content: center; max-width: none; margin: 20px 0 0; }
 
 /* The chest's drop: a spotlight card with sparkles */
 .drop {
@@ -1746,3 +1736,89 @@ html.motion-on .quest__stamp { animation: stamp 0.4s var(--ease) both; animation
     height: 23svh;
   }
 }
+
+/* Restored: Garage / progress styles */
+.gem--s { background: transparent; border-color: var(--gold); box-shadow: 0 0 0 2px rgb(255 207 92 / 0.5); }
+.gprogress { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 16px 0 4px; }
+.gprogress__bar { width: 180px; height: 8px; overflow: hidden; border-radius: 999px; background: rgb(255 255 255 / 0.1); }
+.gprogress__bar span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), var(--mint)); transition: width 0.5s var(--ease); }
+.gprogress__text { font: 600 0.68rem/1.3 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.gbranch.is-secret .gbranch__label { color: var(--gold); background: rgb(255 207 92 / 0.12); box-shadow: inset 0 0 0 1px rgb(255 207 92 / 0.5); }
+.gnode.is-secret .gnode__name { color: var(--gold); }
+.gcard__secret { margin: 0; font-size: 0.92rem; color: var(--paper-dim); }
+
+/* ---------- The Garage secret: the whole screen becomes the garage ---------- */
+.vault {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: #04030c;
+  outline: none;
+}
+html.motion-on .vault { animation: vaultin 0.7s var(--ease) both, vaultshake 1.5s linear both; }
+html.motion-on .vault.is-gone { animation: vaultout 0.5s ease-in both; }
+@keyframes vaultin { from { opacity: 0; } }
+@keyframes vaultout { to { opacity: 0; } }
+@keyframes vaultshake { 0%, 52% { translate: 0 0; } 56% { translate: 0 7px; } 60% { translate: 0 -4px; } 66% { translate: 0 3px; } 74% { translate: 0 -1px; } 82%, 100% { translate: 0 0; } }
+
+.vault__frame { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(80% 80% at 50% 52%, #14103f, #05030f 75%); cursor: grab; touch-action: none; }
+.vault__frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; filter: brightness(calc(0.35 + var(--open) * 0.65)); }
+.vault__labels { position: absolute; inset: 0; pointer-events: none; }
+.vault__labels span { position: absolute; left: 0; top: 0; white-space: nowrap; font-family: var(--pixel); font-size: 1.35rem; line-height: 1; opacity: 0; text-shadow: 0 0 14px currentColor, 0 2px 0 #000; will-change: transform, opacity; }
+.vault__labels span.is-skill { font-family: var(--sans); font-weight: 650; font-size: 0.74rem; letter-spacing: 0.01em; padding: 2px 9px; border-radius: 999px; background: rgb(8 6 28 / 0.62); text-shadow: 0 1px 0 #000; transition: opacity 0.35s; }
+.vault__labels span.is-thought { font-family: var(--sans); font-style: italic; font-size: 0.9rem; letter-spacing: 0.01em; color: #eef3ff; padding: 3px 10px; border-radius: 999px; background: rgb(8 6 28 / 0.6); text-shadow: 0 1px 0 #000; transition: opacity 0.2s; }
+.vault__chain { position: absolute; left: 0; right: 0; top: 84px; z-index: 2; margin: 0 auto; max-width: min(1100px, 92vw); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; font: 600 0.68rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--mint); text-shadow: 0 0 10px rgb(111 227 180 / 0.6); pointer-events: none; opacity: var(--open); }
+.vault__hint { position: absolute; left: 50%; bottom: 130px; z-index: 2; margin: 0; max-width: none; padding: 8px 14px; border-radius: 999px; transform: translateX(-50%); background: rgb(8 6 28 / 0.75); font: 600 0.7rem/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-dim); white-space: nowrap; pointer-events: none; }
+html.motion-on .vault__hint { animation: hintpulse 2.4s ease-in-out infinite; }
+
+/* The door: steel slats, full screen. It drops in with a thud, rises as you scroll, and lowers again to leave. */
+.vault__door {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  transform: translateY(calc(var(--open) * -101%));
+  background: repeating-linear-gradient(180deg, #5a5890 0 2px, #403e72 2px 14px, #2a2850 14px 40px, #14122c 40px 44px, #0a0918 44px 48px);
+  box-shadow: 0 6px 0 #ffcf5c, 0 26px 90px rgb(255 226 150 / calc(0.12 + var(--open) * (1 - var(--open)) * 2.2));
+}
+html.motion-on .vault__door { animation: doordrop 1.3s both; }
+@keyframes doordrop {
+  0% { translate: 0 -104%; animation-timing-function: cubic-bezier(0.55, 0, 0.9, 0.6); }
+  52% { translate: 0 0; animation-timing-function: ease-out; }
+  60% { translate: 0 -1.6%; animation-timing-function: ease-in; }
+  68% { translate: 0 0; animation-timing-function: ease-out; }
+  74% { translate: 0 -0.5%; animation-timing-function: ease-in; }
+  80%, 100% { translate: 0 0; }
+}
+.vault__door::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(0 0 0 / 0.5), transparent 12%, transparent 88%, rgb(0 0 0 / 0.5)); }
+.vault__door::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 26px; background: repeating-linear-gradient(135deg, #ffcf5c 0 14px, #1a1500 14px 28px); }
+.vault__sign { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); font-family: var(--pixel); font-size: clamp(3.5rem, 15vw, 12rem); line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(255 207 92 / 0.2); text-shadow: 0 2px 0 rgb(0 0 0 / 0.5); }
+.vault__cue { position: absolute; left: 50%; bottom: 128px; display: flex; flex-direction: column; align-items: center; gap: 6px; transform: translateX(-50%); font: 600 0.78rem/1 var(--mono); letter-spacing: 0.3em; text-transform: uppercase; color: rgb(255 207 92 / 0.9); opacity: calc(1 - var(--open) * 5); }
+html.motion-on .vault__cue { animation: cuein 0.6s ease-out 1.4s both; }
+@keyframes cuein { from { opacity: 0; } }
+.vault__cue i { width: 12px; height: 12px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+html.motion-on .vault__cue i { animation: cue 1.4s ease-in-out infinite; }
+@keyframes cue { 0%, 100% { transform: translateY(0) rotate(45deg); opacity: 0.4; } 50% { transform: translateY(7px) rotate(45deg); opacity: 1; } }
+.vault__rail { position: absolute; right: 0; top: 0; z-index: 4; width: 4px; height: 100%; background: linear-gradient(#ffcf5c, #ff9a52); transform-origin: top; transform: scaleY(var(--open)); opacity: calc(1 - var(--open) * 1.04); pointer-events: none; }
+
+/* Chrome sits above the door, so the way out is always there */
+.vault__head { position: absolute; left: 0; right: 0; top: 0; z-index: 6; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: clamp(14px, 3vh, 28px) clamp(16px, 4vw, 56px) 40px; background: linear-gradient(rgb(3 2 10 / 0.85), transparent); pointer-events: none; }
+.vault__head > * { pointer-events: auto; }
+.vault__kicker { margin: 0 0 6px; font: 600 0.7rem/1 var(--mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+.vault h3 { margin: 0; font-size: clamp(1.7rem, 3.4vw, 2.6rem); }
+.vault__close { padding: 9px 16px; border: 0; border-radius: 999px; background: rgb(255 255 255 / 0.1); color: var(--paper); font: 600 0.82rem/1 var(--sans); cursor: pointer; white-space: nowrap; backdrop-filter: blur(6px); }
+.vault__close:hover { background: rgb(255 255 255 / 0.2); }
+.vault__close span { margin-left: 6px; font-size: 1.1rem; }
+.vault__controls { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: flex-end; gap: 10px 28px; padding: 56px clamp(16px, 4vw, 56px) 14px; background: linear-gradient(transparent, rgb(3 2 10 / 0.88)); pointer-events: none; }
+.vault__say { width: min(52ch, 100%); margin: 0; max-width: none; color: var(--paper); font-size: 1rem; }
+.vault__stats { display: flex; gap: 24px; margin: 0; padding: 0; list-style: none; }
+.vault__stats li { display: flex; flex-direction: column; gap: 4px; }
+.vault__stats b { font: 400 1.9rem/1 var(--pixel); color: var(--gold); }
+.vault__stats span { font: 600 0.62rem/1 var(--mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.vault__note { position: absolute; left: clamp(16px, 4vw, 56px); right: clamp(16px, 4vw, 56px); bottom: 12px; z-index: 6; width: auto; margin: 0; max-width: 90ch; font-size: 0.76rem; color: var(--muted); pointer-events: none; }
+.vault__controls { padding-bottom: 22px; }
+html.motion-on .vault__head, html.motion-on .vault__controls, html.motion-on .vault__note { animation: chromein 0.7s ease-out 1.3s both; }
+@keyframes chromein { from { opacity: 0; } }
+.vault.is-leaving .vault__head, .vault.is-leaving .vault__controls, .vault.is-leaving .vault__note { opacity: 0.35; transition: opacity 0.4s; animation: none; }
+@media (max-width: 640px) { .vault__stats { gap: 16px; } .vault__labels span { font-size: 1.05rem; } .vault__note { display: none; } .vault__controls { padding-bottom: 16px; } .vault__chain { top: 76px; } }

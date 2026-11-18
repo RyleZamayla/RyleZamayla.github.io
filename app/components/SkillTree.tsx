@@ -7,6 +7,7 @@ import { formatDate } from "../lib/format.ts";
 import { H, HUB, W, graphBranches, graphEdges, graphNodes, neighborsOf, nearestInDirection, nodeById, shortestPath, type BranchName, type GNode } from "../lib/skillGraph.ts";
 import { useReveal } from "../hooks/useReveal.ts";
 import { PixelIcon, type PixelIconName } from "./PixelIcon";
+import { GarageVault } from "./GarageEgg";
 
 /*
  * The skill web. Every skill is a star with a level (one verified milestone =
@@ -42,7 +43,10 @@ export function SkillTree() {
   const [sparkKey, setSparkKey] = useState(0);
   const [note, setNote] = useState("");
 
-  const unlocked = skills.every((s) => visited.has(s.id));
+  const [konami, setKonami] = useState(false);
+  const [vault, setVault] = useState(false);
+  const closeVault = useCallback(() => setVault(false), []);
+  const unlocked = konami || skills.every((s) => visited.has(s.id));
   const visible = useCallback((n: GNode) => !n.secret || unlocked, [unlocked]);
   const nodes = useMemo(() => graphNodes.filter(visible), [visible]);
 
@@ -103,10 +107,29 @@ export function SkillTree() {
     setNote("");
   };
 
-  // Say so when the secret branch opens.
+  // The reward: the page dims and a garage door waits to be cranked open.
   useEffect(() => {
-    if (unlocked) setNote("Every skill explored: a secret branch has opened below the hub.");
+    if (!unlocked) return;
+    setNote("Secret branch unlocked: the Garage door is waiting.");
+    setVault(true);
   }, [unlocked]);
+
+  // The old way in: ↑ ↑ ↓ ↓ ← → ← → B A, anywhere on the page.
+  useEffect(() => {
+    const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    let i = 0;
+    const onKey = (e: KeyboardEvent) => {
+      const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      i = k === code[i] ? i + 1 : k === code[0] ? 1 : 0;
+      if (i === code.length) {
+        i = 0;
+        setKonami(true);
+        setVault(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Arrow keys travel around the web; Escape closes the card.
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -156,6 +179,11 @@ export function SkillTree() {
         <span className="gprogress__text">
           {unlocked ? "Secret branch unlocked" : `Explored ${explored}/${skills.length}. Visit them all to unlock something.`}
         </span>
+        {unlocked && (
+          <button type="button" className="gbtn" onClick={() => setVault(true)}>
+            Re-enter the Garage
+          </button>
+        )}
       </div>
       <div className="gdock" aria-live="polite">
         {note && <p className="gnote">{note}</p>}
@@ -264,6 +292,7 @@ export function SkillTree() {
           );
         })}
       </div>
+      {vault && <GarageVault onClose={closeVault} />}
     </div>
   );
 }
