@@ -57,24 +57,31 @@ function profile(x: number): [number, number, number] {
 }
 /** Gyri: ridges and valleys, so the surface reads as folded cortex. */
 const ridge = (x: number, y: number, z: number) => Math.sin(9 * x + 3 * y) * Math.sin(8 * z + 2 * x) + 0.6 * Math.sin(13 * y + 5 * z) + 0.4 * Math.sin(17 * x - 7 * z);
-function cerebrumSurface(x: number, phi: number): [number, number, number] {
+/** Two hemispheres: each is its own rounded half, with a deep groove (the longitudinal fissure) between them. */
+const HEMI = 0.505; // how far from the midline each hemisphere's centre sits, as a share of the half-width
+function cerebrumSurface(x: number, phi: number, side = 1): [number, number, number] {
   const [ym, h, w] = profile(x);
+  const c = w * HEMI;
+  const a = w * (1 - HEMI) * 0.97;
   const y = ym + h * Math.sin(phi);
   // wider low down than up top, like a dome: narrow at the crown, full at the temples
-  const z = w * Math.cos(phi) * (1 + 0.16 * Math.max(0, Math.sin(phi)) - 0.1 * Math.max(0, -Math.sin(phi)));
-  const g = 1 + 0.022 * ridge(x, y, z) * 0.5;
-  return [x, ym + (y - ym) * g, z * g];
+  // the side facing the other hemisphere is flatter, so the two meet in a thin groove instead of a gap
+  const cs = Math.cos(phi);
+  const lz = a * (cs < 0 ? -((-cs) ** 0.5) : cs) * (1 + 0.16 * Math.max(0, Math.sin(phi)) - 0.1 * Math.max(0, -Math.sin(phi)));
+  const g = 1 + 0.022 * ridge(x, y, side * (c + lz)) * 0.5;
+  return [x, ym + (y - ym) * g, side * (c + lz * g)];
 }
 function insideCerebrum(x: number, y: number, z: number) {
   if (Math.abs(x) >= 1) return false;
   const [ym, h, w] = profile(x);
   if (h <= 0 || w <= 0) return false;
-  return ((y - ym) / h) ** 2 + (z / w) ** 2 < 1;
+  const a = w * (1 - HEMI) * 0.97;
+  return ((y - ym) / h) ** 2 + ((Math.abs(z) - w * HEMI) / a) ** 2 < 1;
 }
 const CB: [number, number, number] = [0.52, 0.2, 0]; // cerebellum centre
-const CBA: [number, number, number] = [0.25, 0.13, 0.26]; // and its half-sizes
+const CBA: [number, number, number] = [0.22, 0.11, 0.22]; // and its half-sizes
 /** The temporal lobes hang below the front of each hemisphere, tilting up toward the back. */
-const TL = { x: -0.12, y: 0.15, z: 0.4, ax: 0.52, ay: 0.14, az: 0.2 };
+const TL = { x: -0.14, y: 0.1, z: 0.34, ax: 0.58, ay: 0.1, az: 0.15 };
 function temporalSurface(side: number, u: number, v: number): [number, number, number] {
   const th = u * Math.PI;
   const ph = v * Math.PI * 2;
@@ -331,11 +338,12 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
       const [ym, h, w] = profile(x);
       if (rand() > (h + w) / 1.0) continue;
       const phi = rand() * Math.PI * 2;
-      const [sx, sy, sz] = cerebrumSurface(x, phi);
-      if (Math.abs(sz) < 0.03 && sy < ym) continue; // the groove between the hemispheres
+      const side = rand() < 0.5 ? -1 : 1;
+      const [sx, sy, sz] = cerebrumSurface(x, phi, side);
       if (ridge(sx, sy, sz) < -0.2 && rand() < 0.55) continue;
       const k = rand() < 0.2 ? rand() ** 0.5 : 1 - Math.abs(gauss()) * 0.06;
-      add(sx, ym + (sy - ym) * k, sz * k);
+      const zc = side * w * HEMI;
+      add(sx, ym + (sy - ym) * k, zc + (sz - zc) * k);
       i++;
     }
     // temporal lobes
@@ -357,8 +365,8 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
     for (let i = 0; i < 520; i++) {
       const t = rand();
       const a = rand() * Math.PI * 2;
-      const rad = 0.075 * (1 - t * 0.35);
-      add(0.16 + t * 0.1 + Math.cos(a) * rad, 0.12 + t * 0.5, Math.sin(a) * rad);
+      const rad = 0.06 * (1 - t * 0.5);
+      add(0.14 + t * 0.06 + Math.cos(a) * rad, 0.12 + t * 0.3, Math.sin(a) * rad);
     }
     const P = new Float32Array(pts);
     const N = P.length / 3;
@@ -379,10 +387,14 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
         y = CB[1] + (k ? 0.02 : 0);
         z = k ? 0.1 : -0.1;
       } else {
-        for (let t = 0; t < 40 && !insideCerebrum(x, CEN + (y - CEN) * 1.12, z * 1.25); t++) {
-          x *= 0.93;
-          y = CEN + (y - CEN) * 0.93;
-          z *= 0.93;
+        // each skill sits inside one hemisphere, off the midline
+        const sd = rand() < 0.5 ? -1 : 1;
+        const zr = 0.7 + rand() * 0.6;
+        for (let t = 0; t < 40; t++) {
+          z = sd * profile(x)[2] * HEMI * zr;
+          if (insideCerebrum(x, CEN + (y - CEN) * 1.12, z * 1.1)) break;
+          x *= 0.95;
+          y = CEN + (y - CEN) * 0.95;
         }
       }
       return { name: n.name, branch: br, c: BRANCH_COLOR[br] ?? [255, 255, 255], x, y, z, nbr: [], charge: 0, cool: 0, burst: 0, fibres: [], hobby: br === "Garage", thought: false, text: "", sx: 0, sy: 0, sz: 0, labelOn: false };
@@ -492,7 +504,7 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
     // faint blue filaments that wrap the cortex
     const GA: number[] = [];
     for (let i = 0; i < 70; i++) {
-      const dir = (): [number, number, number] => cerebrumSurface(rand() * 1.9 - 0.95, rand() * Math.PI * 2);
+      const dir = (): [number, number, number] => cerebrumSurface(rand() * 1.9 - 0.95, rand() * Math.PI * 2, rand() < 0.5 ? -1 : 1);
       const a = dir();
       let b = dir();
       for (let t = 0; t < 8 && Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]) > 0.9; t++) b = dir();
@@ -510,22 +522,24 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
         seg.push(out[i]!, out[i + 1]!, out[i + 2]!, out[i + 3]!, out[i + 4]!, out[i + 5]!);
       }
     };
-    keep(contours((u, v) => cerebrumSurface(-1 + u * 2, v * Math.PI * 2), 340, 170, [0, 0.45, -0.45]), false);
+    for (const side of [-1, 1]) keep(contours((u, v) => cerebrumSurface(-1 + u * 2, v * Math.PI * 2, side), 340, 100, [0, 0.45, -0.45]), false);
     for (const side of [-1, 1]) keep(contours((u, v) => temporalSurface(side, u, v), 90, 60, [0, 0.5, -0.5]), true);
     keep(contours(cbSurface, 70, 70, [0, 0.45, -0.45], folia), true);
     for (let q = 0; q < 3; q++) {
       // brain stem: a slim tube drawn with a few long lines
       const a = (q / 3) * Math.PI * 2 + 0.5;
       for (let t = 0; t < 12; t++) {
-        const f = (tt: number) => [0.16 + tt * 0.1 + Math.cos(a) * 0.075 * (1 - tt * 0.35), 0.1 + tt * 0.52, Math.sin(a) * 0.075 * (1 - tt * 0.35)] as const;
+        const f = (tt: number) => [0.14 + tt * 0.06 + Math.cos(a) * 0.06 * (1 - tt * 0.5), 0.1 + tt * 0.32, Math.sin(a) * 0.06 * (1 - tt * 0.5)] as const;
         seg.push(...f(t / 12), ...f((t + 1) / 12));
       }
     }
     // the deeper folds: fewer, longer, and brighter
     const segC: number[] = [];
     {
-      const out = contours((u, v) => cerebrumSurface(-1 + u * 2, v * Math.PI * 2), 280, 140, [0], wave2);
-      for (let i = 0; i < out.length; i++) segC.push(out[i]!);
+      for (const side of [-1, 1]) {
+        const out = contours((u, v) => cerebrumSurface(-1 + u * 2, v * Math.PI * 2, side), 280, 90, [0], wave2);
+        for (let i = 0; i < out.length; i++) segC.push(out[i]!);
+      }
     }
     for (const side of [-1, 1]) {
       const out = contours((u, v) => temporalSurface(side, u, v), 70, 50, [0, 0.5], wave2);
@@ -605,7 +619,7 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
     let ch = 0;
     let K = 1;
     let yaw = 0.5;
-    let pitch = 0.2;
+    let pitch = 0.36;
     let vYaw = 0;
     let vPitch = 0;
     let idleFor = 0;
@@ -845,8 +859,8 @@ export function GarageVault({ onClose }: { onClose: () => void }) {
           ctx.stroke();
         }
       };
-      lineSet(SEG, segP, NS, [0.1, 0.3, 0.7], 0.7, "150,215,255");
-      lineSet(SEGC, bufC, NC, [0.2, 0.55, 1], 1.0, "190,235,255");
+      lineSet(SEG, segP, NS, [0.05, 0.26, 0.75], 0.7, "150,215,255");
+      lineSet(SEGC, bufC, NC, [0.1, 0.5, 1], 1.0, "190,235,255");
       lineSet(SEGW, bufW, NW, [0.07, 0.12, 0.2], 0.7, "255,205,150");
       // hippocampus: a warm glowing tube
       for (const path of hip) {
