@@ -9,11 +9,11 @@ import { useEffect, useRef } from "react";
  * as --p (0 to 1) and --sp (progress within the current step), and marks which
  * step is active. All the visuals are plain CSS reacting to those values.
  *
- * Everything degrades: on phones, short screens, with animations paused or with
+* Everything degrades: on short screens (phones held sideways), with animations paused or with
  * reduced motion, <html> never gets "story-pinned", chapters are ordinary
  * sections and every step is simply visible, one after another.
  */
-export const PIN_QUERY = "(min-width: 900px) and (min-height: 620px)";
+export const PIN_QUERY = "(min-height: 560px)";
 
 /** Runs before first paint (after the motion script) so the page never jumps when it hydrates. */
 export const storyBootScript = `(function(){try{var d=document.documentElement;if(d.classList.contains("motion-on")&&window.matchMedia("${PIN_QUERY}").matches){d.classList.add("story-pinned")}}catch(e){}})();`;

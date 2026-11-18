@@ -1822,3 +1822,191 @@ html.motion-on .vault__head, html.motion-on .vault__controls, html.motion-on .va
 @keyframes chromein { from { opacity: 0; } }
 .vault.is-leaving .vault__head, .vault.is-leaving .vault__controls, .vault.is-leaving .vault__note { opacity: 0.35; transition: opacity 0.4s; animation: none; }
 @media (max-width: 640px) { .vault__stats { gap: 16px; } .vault__labels span { font-size: 1.05rem; } .vault__note { display: none; } .vault__controls { padding-bottom: 16px; } .vault__chain { top: 76px; } }
+
+/* ==========================================================================
+   Phones (portrait): the same pinned story, with every chapter sized to fit one screen
+   ========================================================================== */
+@media (max-width: 899px) {
+  html.story-pinned .chapter {
+    --len: 72svh;
+  }
+  html.story-pinned .chapter__stage {
+    align-content: start;
+    padding: calc(var(--header-h, 70px) + 12px) 18px 14px;
+  }
+  html.story-pinned .chapter--title .chapter__stage {
+    padding: 0;
+  }
+  /* The title: the copy lifts away while the camera dives into the monitor. */
+  html.story-pinned .title__copy {
+    transform: translateY(calc(var(--p, 0) * -70px));
+    opacity: calc(1 - var(--p, 0) * 2.6);
+  }
+  html.story-pinned .title__scene {
+    transform-origin: 50% 82%;
+    transform: translateY(calc(var(--p, 0) * -30%)) scale(calc(1 + var(--p, 0) * 2));
+  }
+  html.story-pinned .ts-l {
+    transform: translateY(calc(var(--p, 0) * var(--dy, 0px)));
+  }
+  html.story-pinned .title__fade {
+    opacity: calc((var(--p, 0) - 0.55) * 2.4);
+  }
+  html.story-pinned .title__hint {
+    opacity: calc(1 - var(--p, 0) * 8);
+  }
+  html.story-pinned .pips--side {
+    right: 5px;
+  }
+  html.story-pinned .pips--side li {
+    height: 20px;
+  }
+  html.story-pinned .eyebrow {
+    margin-bottom: 8px;
+    font-size: 0.66rem;
+  }
+  html.story-pinned .big {
+    margin-bottom: 10px;
+    font-size: clamp(2rem, 10vw, 2.7rem);
+  }
+  html.story-pinned .big--sm {
+    font-size: clamp(1.7rem, 8.2vw, 2.2rem);
+  }
+  html.story-pinned .lede {
+    margin: 0;
+    font-size: 1rem;
+  }
+  /* Chapter I */
+  html.story-pinned .slide {
+    gap: 14px;
+    align-content: start;
+    padding-right: 10px;
+  }
+  html.story-pinned .slide__text p {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  html.story-pinned .player-card {
+    width: min(100%, 330px);
+    padding: 10px;
+  }
+  html.story-pinned .player-card__avatar {
+    height: clamp(120px, 24svh, 240px);
+    object-position: 50% 12%;
+  }
+  html.story-pinned .player-card__name {
+    margin: 8px 0 4px;
+    font-size: 0.8rem;
+  }
+  html.story-pinned .player-card__stats dt,
+  html.story-pinned .player-card__stats dd {
+    font-size: 0.74rem;
+    line-height: 1.3;
+  }
+  html.story-pinned .loadout {
+    gap: 10px;
+  }
+  html.story-pinned .loadout__grid {
+    gap: 8px;
+  }
+  html.story-pinned .slot {
+    padding: 8px 6px 7px;
+  }
+  html.story-pinned .slot__art {
+    height: clamp(36px, 6svh, 52px);
+    margin-bottom: 2px;
+  }
+  html.story-pinned .slot b {
+    font-size: 0.95rem;
+  }
+  html.story-pinned .slot small {
+    font-size: 0.56rem;
+  }
+  html.story-pinned .status {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  /* Chapters II and III */
+  html.story-pinned .quests-hud {
+    align-items: flex-end;
+    margin-bottom: 12px;
+  }
+  html.story-pinned .quests-hud .lede,
+  html.story-pinned .quest-step__problem,
+  html.story-pinned .stack {
+    display: none;
+  }
+  html.story-pinned .quests-hud .big {
+    margin: 0;
+  }
+  html.story-pinned .counter {
+    margin-bottom: 6px;
+  }
+  html.story-pinned .counter b {
+    font-size: 1.7rem;
+  }
+  html.story-pinned .quest-step {
+    gap: 12px;
+    padding: 14px;
+    border-radius: 20px;
+  }
+  html.story-pinned .quest-step__title {
+    margin: 2px 0 6px;
+    font-size: clamp(1.7rem, 8vw, 2.2rem);
+  }
+  html.story-pinned .quest-step__tag {
+    margin: 0 0 8px;
+    font-size: 0.98rem;
+  }
+  html.story-pinned .quest-step__proof {
+    margin: 0 0 12px;
+    font-size: 0.86rem;
+  }
+  html.story-pinned .quest-step__visual .pt {
+    width: min(100%, calc((100svh - var(--header-h, 70px) - 400px) * 1.6));
+  }
+  html.story-pinned .quests-more {
+    bottom: 10px;
+  }
+}
+
+/* Shorter phones (iPhone SE and friends): trim a little more so each step still fits */
+@media (max-width: 899px) and (max-height: 760px) {
+  html.story-pinned .player-card__avatar {
+    height: 17svh;
+  }
+  html.story-pinned .player-card__stats div:nth-child(n + 5) {
+    display: none;
+  }
+  html.story-pinned .slide__text p {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+  html.story-pinned .slide .scene + p,
+  html.story-pinned .slide__visual > p {
+    display: none;
+  }
+  html.story-pinned .slot {
+    padding: 6px 4px 5px;
+  }
+  html.story-pinned .slot__art {
+    height: 34px;
+  }
+  html.story-pinned .status {
+    display: none;
+  }
+  html.story-pinned .quests-hud .eyebrow,
+  html.story-pinned .quest-step__tag {
+    display: none;
+  }
+  html.story-pinned .quest-step__visual .pt {
+    width: min(100%, calc((100svh - var(--header-h, 70px) - 330px) * 1.6));
+  }
+}
+@media (max-width: 899px) and (max-height: 760px) {
+  html.story-pinned .scene__caption {
+    display: none;
+  }
+}
